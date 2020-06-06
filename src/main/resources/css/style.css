@@ -15,15 +15,27 @@
     -fx-padding: 0;
 }
 
-.split-pane .split-pane-divider {
-    -fx-padding: 0;
+.split-pane *.split-pane-divider {
     -fx-background-color: transparent;
+    -fx-padding: 0;
 }
 
 .left-control {
     -fx-background-color: derive(-fx-dark, 20%);
 }
 
+.left-control .nav-bar {
+    -fx-background-color: derive(-fx-dark, 30%);
+}
+
 .right-control {
     -fx-background-color: -fx-dark;
+}
+
+.right-control .nav-bar {
+    -fx-background-color: derive(-fx-dark, 15%);
+}
+
+.nav-bar {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .2), 15, 0, 0, 3);
 }
