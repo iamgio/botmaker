@@ -1,0 +1,29 @@
+* {
+    -fx-dark: #0e1621;
+}
+
+.text {
+    -fx-font-smoothing-type: gray;
+}
+
+.root {
+    -fx-background-color: -fx-dark;
+}
+
+.split-pane {
+    -fx-box-border: transparent;
+    -fx-padding: 0;
+}
+
+.split-pane .split-pane-divider {
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+}
+
+.left-control {
+    -fx-background-color: derive(-fx-dark, 20%);
+}
+
+.right-control {
+    -fx-background-color: -fx-dark;
+}
