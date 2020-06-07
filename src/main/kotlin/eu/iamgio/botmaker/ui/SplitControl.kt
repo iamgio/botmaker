@@ -1,6 +1,5 @@
 package eu.iamgio.botmaker.ui
 
-import javafx.scene.control.SplitPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 
@@ -19,7 +18,6 @@ class SplitControl : VBox() {
 
     init {
         styleClass += "split-control"
-        SplitPane.setResizableWithParent(this, false)
         children += navBar
     }
 }

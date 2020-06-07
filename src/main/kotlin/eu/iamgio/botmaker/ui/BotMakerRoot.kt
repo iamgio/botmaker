@@ -14,6 +14,7 @@ class BotMakerRoot : AnchorPane() {
     }
 
     private val leftControl = SplitControl().apply {
+        SplitPane.setResizableWithParent(this, false)
         styleClass += "left-control"
     }
 

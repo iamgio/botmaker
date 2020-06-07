@@ -31,6 +31,7 @@ class BotMaker : Application() {
 
         primaryStage.scene = scene
         primaryStage.title = "BotMaker" // TODO bundle
+        primaryStage.isMaximized = true
         primaryStage.show()
     }
 
