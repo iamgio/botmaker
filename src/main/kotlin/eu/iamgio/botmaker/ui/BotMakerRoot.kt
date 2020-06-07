@@ -1,5 +1,7 @@
 package eu.iamgio.botmaker.ui
 
+import eu.iamgio.botmaker.ui.splitcontrols.LeftSplitControl
+import eu.iamgio.botmaker.ui.splitcontrols.RightSplitControl
 import javafx.scene.control.SplitPane
 import javafx.scene.layout.AnchorPane
 
@@ -13,14 +15,8 @@ class BotMakerRoot : AnchorPane() {
         setDividerPositions(0.25)
     }
 
-    private val leftControl = SplitControl().apply {
-        SplitPane.setResizableWithParent(this, false)
-        styleClass += "left-control"
-    }
-
-    private val rightControl = SplitControl().apply {
-        styleClass += "right-control"
-    }
+    private val leftControl = LeftSplitControl()
+    private val rightControl = RightSplitControl()
 
     init {
         splitPane.items.addAll(leftControl, rightControl)

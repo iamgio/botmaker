@@ -4,11 +4,11 @@
 
 .text {
     -fx-font-smoothing-type: gray;
-    -fx-fill: white;
 }
 
 .label {
     -fx-font-family: Karla;
+    -fx-text-fill: white;
 }
 
 .root {
@@ -43,6 +43,7 @@
 }
 
 .nav-bar {
+    -fx-padding: 0 0 0 20;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .2), 15, 0, 0, 3);
 }
 
@@ -53,4 +54,17 @@
 
 .bot-list .bot-name {
     -fx-font-size: 18;
+}
+
+.add-bot-button {
+    -fx-text-fill: #73d078;
+    -fx-font-size: 45;
+    -fx-font-weight: bold;
+    -fx-opacity: .85;
+    -fx-padding: 0 0 5 0;
+    -fx-cursor: hand;
+}
+
+.add-bot-button:hover {
+    -fx-opacity: 1;
 }
