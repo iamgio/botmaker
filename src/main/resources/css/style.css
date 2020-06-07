@@ -4,6 +4,11 @@
 
 .text {
     -fx-font-smoothing-type: gray;
+    -fx-fill: white;
+}
+
+.label {
+    -fx-font-family: Karla;
 }
 
 .root {
@@ -15,13 +20,14 @@
     -fx-padding: 0;
 }
 
-.split-pane *.split-pane-divider {
+.split-pane .split-pane-divider {
     -fx-background-color: transparent;
     -fx-padding: 0;
 }
 
 .left-control {
     -fx-background-color: derive(-fx-dark, 20%);
+    -fx-spacing: 20;
 }
 
 .left-control .nav-bar {
@@ -38,4 +44,13 @@
 
 .nav-bar {
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .2), 15, 0, 0, 3);
+}
+
+.bot-list {
+    -fx-padding: 0 0 0 20;
+    -fx-spacing: 5;
+}
+
+.bot-list .bot-name {
+    -fx-font-size: 18;
 }
