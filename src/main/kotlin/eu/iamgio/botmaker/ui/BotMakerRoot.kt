@@ -21,9 +21,5 @@ class BotMakerRoot : AnchorPane() {
     init {
         splitPane.items.addAll(leftControl, rightControl)
         children += splitPane
-
-        val botList = BotListNode()
-        botList.children.addAll(BotNameNode("my_bot_1"), BotNameNode("my_bot_2")) // Test
-        leftControl.children += botList
     }
 }

@@ -10,19 +10,17 @@ class BotListNode : BrowsableVBox() {
     init {
         styleClass += "bot-list"
     }
-}
 
-/**
- * @author Giorgio Garofalo
- */
-class BotNameNode(name: String) : Label(name), Actionable {
+    inner class BotNameNode(name: String) : Label(name), Actionable {
 
-    init {
-        styleClass += "bot-name"
-    }
+        init {
+            styleClass += "bot-name"
+            prefWidthProperty().bind(this@BotListNode.prefWidthProperty())
+        }
 
-    override fun onAction() {
-        println("Bot $text")
-        // TODO
+        override fun onAction() {
+            println("Bot $text")
+            // TODO
+        }
     }
 }

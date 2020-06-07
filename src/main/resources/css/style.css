@@ -47,12 +47,8 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .2), 15, 0, 0, 3);
 }
 
-.bot-list {
-    -fx-padding: 0 0 0 20;
-    -fx-spacing: 5;
-}
-
 .bot-list .bot-name {
+    -fx-padding: 5 0 5 20;
     -fx-font-size: 18;
 }
 
