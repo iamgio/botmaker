@@ -1,12 +1,11 @@
 package eu.iamgio.botmaker.ui
 
 import javafx.scene.control.Label
-import javafx.scene.layout.VBox
 
 /**
  * @author Giorgio Garofalo
  */
-class BotListNode : VBox() {
+class BotListNode : BrowsableVBox() {
 
     init {
         styleClass += "bot-list"
@@ -16,9 +15,14 @@ class BotListNode : VBox() {
 /**
  * @author Giorgio Garofalo
  */
-class BotNameNode(name: String) : Label(name) {
+class BotNameNode(name: String) : Label(name), Actionable {
 
     init {
         styleClass += "bot-name"
+    }
+
+    override fun onAction() {
+        println("Bot $text")
+        // TODO
     }
 }
