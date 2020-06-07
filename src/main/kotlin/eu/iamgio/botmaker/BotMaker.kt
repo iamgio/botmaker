@@ -34,7 +34,7 @@ class BotMaker : Application() {
         primaryStage.show()
     }
 
-    private fun loadFont(name: String) = Font.loadFont("/font/$name", 18.0)
+    private fun loadFont(name: String) = Font.loadFont(javaClass.getResourceAsStream("/font/$name"), 18.0)
 }
 
 fun main() {
