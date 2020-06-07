@@ -5,7 +5,7 @@ import javafx.scene.control.Label
 /**
  * @author Giorgio Garofalo
  */
-class BotListNode : BrowsableVBox() {
+class BotListNode : BrowsableVBox(true) {
 
     init {
         styleClass += "bot-list"
