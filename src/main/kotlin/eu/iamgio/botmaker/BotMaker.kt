@@ -1,10 +1,13 @@
 package eu.iamgio.botmaker
 
+import eu.iamgio.botmaker.bundle.ResourceBundle
+import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.ui.BotMakerRoot
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.text.Font
 import javafx.stage.Stage
+import java.util.*
 
 const val SCENE_WIDTH = 900.0
 const val SCENE_HEIGHT = 600.0
@@ -20,6 +23,8 @@ class BotMaker : Application() {
     override fun start(primaryStage: Stage) {
         root = BotMakerRoot()
 
+        ResourceBundle.load(Locale.ENGLISH)
+
         loadFont("Karla-Regular.ttf")
         loadFont("Karla-Bold.ttf")
 
@@ -30,7 +35,7 @@ class BotMaker : Application() {
         root.prefHeightProperty().bind(scene.heightProperty())
 
         primaryStage.scene = scene
-        primaryStage.title = "BotMaker" // TODO bundle
+        primaryStage.title = getString("title")
         primaryStage.isMaximized = true
         primaryStage.show()
     }
