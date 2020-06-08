@@ -50,16 +50,16 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
             when(it.code) {
                 KeyCode.UP -> decrease()
                 KeyCode.DOWN -> increase()
-                else -> return@setOnKeyPressed
+                else -> {
+                    if(isFocused && index >= 0 && index < children.size) {
+                        val node = children[index]
+                        if(node is Actionable) node.onAction(it.code)
+                        return@setOnKeyPressed
+                    }
+                }
             }
             unselect(false)
             children[index].updateSelectedPseudoClass(true)
-        }
-        setOnKeyReleased {
-            if(isFocused && index >= 0) {
-                val node = children[index]
-                if(node is Actionable) node.onAction(it.code)
-            }
         }
         setOnMouseClicked { requestFocus() }
 
