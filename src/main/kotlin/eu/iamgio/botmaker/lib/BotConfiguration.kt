@@ -1,18 +1,10 @@
 package eu.iamgio.botmaker.lib
 
-import com.google.gson.GsonBuilder
-import eu.iamgio.botmaker.lib.gson.RuntimeTypeAdapterFactory
+import eu.iamgio.botmaker.lib.gson.gson
 import io.github.ageofwar.telejam.messages.Message
 import java.io.File
 
-private val gson = GsonBuilder()
-        .registerTypeHierarchyAdapter(Filter::class.java, RuntimeTypeAdapterFactory.of(Filter::class.java, "type")
-                .registerSubtype(Filters::class.java, "filters"))
-        .registerTypeHierarchyAdapter(Action::class.java, RuntimeTypeAdapterFactory.of(Action::class.java, "type")
-                .registerSubtype(Actions::class.java, "actions"))
-        .create()
-
-data class BotConfiguration(val messageEvents: List<MessageEvent>) {
+data class BotConfiguration(val name: String, val botToken: String, val messageEvents: List<MessageEvent>) {
     fun save(path: String) {
         File(path).also { it.parentFile.mkdirs() }.writer().use {
             gson.toJson(this, it)
