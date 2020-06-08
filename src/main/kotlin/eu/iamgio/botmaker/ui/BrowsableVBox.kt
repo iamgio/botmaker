@@ -54,9 +54,9 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
             children[index].updateSelectedPseudoClass(true)
         }
         setOnKeyReleased {
-            if(isFocused && it.code == KeyCode.ENTER) {
+            if(isFocused && index >= 0) {
                 val node = children[index]
-                if(node is Actionable) node.onAction()
+                if(node is Actionable) node.onAction(it.code)
             }
         }
 
@@ -77,5 +77,5 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
 
 interface Actionable {
 
-    fun onAction()
+    fun onAction(keyCode: KeyCode)
 }

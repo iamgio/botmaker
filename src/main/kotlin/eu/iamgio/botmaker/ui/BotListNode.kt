@@ -2,6 +2,7 @@ package eu.iamgio.botmaker.ui
 
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
 import javafx.scene.control.Label
+import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
 
 /**
@@ -40,6 +41,12 @@ class BotListNode : BrowsableVBox(true) {
             // TODO
         }
 
-        override fun onAction() = open()
+        override fun onAction(keyCode: KeyCode) {
+            if(keyCode == KeyCode.ENTER) {
+                open()
+            } else if(keyCode == KeyCode.DELETE) {
+                delete()
+            }
+        }
     }
 }
