@@ -36,9 +36,11 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
         this.pseudoClassStateChanged(PseudoClass.getPseudoClass("selected"), active)
     }
 
-    private fun unselect(resetIndex: Boolean = false) {
+    private fun unselect(removeFocus: Boolean = true) {
         children.forEach { child -> child.updateSelectedPseudoClass(false) }
-        if(resetIndex) index = -1
+        if(removeFocus) {
+            root.rightControl.requestFocus()
+        }
     }
 
     init {
@@ -50,7 +52,7 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
                 KeyCode.DOWN -> increase()
                 else -> return@setOnKeyPressed
             }
-            unselect(resetIndex = false)
+            unselect(false)
             children[index].updateSelectedPseudoClass(true)
         }
         setOnKeyReleased {
@@ -59,6 +61,7 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
                 if(node is Actionable) node.onAction(it.code)
             }
         }
+        setOnMouseClicked { requestFocus() }
 
         if(listenForRootClicks) {
             Platform.runLater {
