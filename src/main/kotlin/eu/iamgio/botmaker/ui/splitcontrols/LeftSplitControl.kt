@@ -22,7 +22,7 @@ class LeftSplitControl : SplitControl() {
         }
 
         val botList = BotListNode().apply { prefWidthProperty().bind(this@LeftSplitControl.widthProperty()) }
-        botList.children.addAll(botList.BotNameNode("my_bot_1"), botList.BotNameNode("my_bot_2")) // Test
+        botList.children.addAll(botList.ListedBotNode("my_bot_1"), botList.ListedBotNode("my_bot_2")) // Test
         children += botList
     }
 }
