@@ -75,17 +75,16 @@
 
 .context-menu {
     -fx-background-color: derive(-fx-dark, 15%);
-    -fx-padding: 10 0 10 0;
 }
 
 .menu-item {
     -fx-background-color: transparent;
-    -fx-padding: 5 20 0 15;
+    -fx-padding: 3 20 3 20;
     -fx-font-size: 16;
 }
 
 .menu-item:hover {
-    -fx-background-color: -fx-dark;
+    -fx-background-color: rgba(255, 255, 255, .1);
 }
 
 .bot-control-pane {
