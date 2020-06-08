@@ -16,7 +16,7 @@ class BotMakerRoot : AnchorPane() {
     }
 
     private val leftControl = LeftSplitControl()
-    private val rightControl = RightSplitControl()
+    val rightControl = RightSplitControl()
 
     init {
         splitPane.items.addAll(leftControl, rightControl)

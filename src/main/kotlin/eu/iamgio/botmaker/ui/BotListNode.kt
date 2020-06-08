@@ -1,5 +1,6 @@
 package eu.iamgio.botmaker.ui
 
+import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
 import javafx.scene.control.Label
 
 /**
@@ -11,16 +12,18 @@ class BotListNode : BrowsableVBox(true) {
         styleClass += "bot-list"
     }
 
-    inner class BotNameNode(name: String) : Label(name), Actionable {
+    inner class BotNameNode(private val name: String) : Label(name), Actionable {
 
         init {
             styleClass += "bot-name"
             prefWidthProperty().bind(this@BotListNode.prefWidthProperty())
         }
 
-        override fun onAction() {
+        private fun open() {
             println("Bot $text")
-            // TODO
+            BotControlPane(name).show()
         }
+
+        override fun onAction() = open()
     }
 }

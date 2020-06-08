@@ -72,3 +72,12 @@
 .add-bot-button:hover {
     -fx-opacity: 1;
 }
+
+.bot-control-pane {
+    -fx-padding: 30 0 0 35;
+}
+
+.bot-control-pane .title {
+    -fx-font-size: 40;
+    -fx-font-weight: bold;
+}
