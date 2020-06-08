@@ -17,6 +17,12 @@ class BotListNode : BrowsableVBox(true) {
         init {
             styleClass += "bot-name"
             prefWidthProperty().bind(this@BotListNode.prefWidthProperty())
+
+            setOnMouseClicked {
+                if(it.clickCount == 2) {
+                    open()
+                }
+            }
         }
 
         private fun open() {
