@@ -1,5 +1,6 @@
 package eu.iamgio.botmaker.ui.splitcontrols
 
+import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.ui.BotListNode
 import javafx.scene.control.Label
 import javafx.scene.control.SplitPane
@@ -22,7 +23,10 @@ class LeftSplitControl : SplitControl() {
         }
 
         val botList = BotListNode().apply { prefWidthProperty().bind(this@LeftSplitControl.widthProperty()) }
-        botList.children.addAll(botList.ListedBotNode("my_bot_1"), botList.ListedBotNode("my_bot_2")) // Test
+        botList.children.addAll(
+                botList.ListedBotNode(BotConfiguration("my_bot_1", "abc", emptyList())),
+                botList.ListedBotNode(BotConfiguration("my_bot_2", "def", emptyList()))
+        ) // Test
         children += botList
     }
 }

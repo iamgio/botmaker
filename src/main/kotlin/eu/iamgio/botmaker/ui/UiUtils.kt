@@ -1,6 +1,7 @@
 package eu.iamgio.botmaker.ui
 
 import eu.iamgio.botmaker.root
+import javafx.scene.Parent
 import javafx.scene.layout.Region
 
 /**
@@ -9,4 +10,9 @@ import javafx.scene.layout.Region
 fun Region.bindSize(region: Region = root, bindWidth: Boolean = true, bindHeight: Boolean = true) {
     if(bindWidth) prefWidthProperty().bind(region.prefWidthProperty())
     if(bindHeight) prefHeightProperty().bind(region.prefHeightProperty())
+}
+
+fun <T> T.withClass(styleClass: String): T where T : Parent {
+    this.styleClass += styleClass
+    return this
 }

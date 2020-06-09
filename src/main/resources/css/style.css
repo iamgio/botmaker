@@ -95,3 +95,32 @@
     -fx-font-size: 40;
     -fx-font-weight: bold;
 }
+
+.bot-control-pane .token-box > * {
+    -fx-opacity: 0.5;
+}
+
+.bot-control-pane .token-box .label {
+    -fx-font-size: 15;
+}
+
+.bot-control-pane .token {
+    -fx-padding: 0 3 0 50;
+}
+
+.bot-control-pane .token-label {
+    -fx-padding: 0 0 0 5;
+}
+
+.svg-wrap {
+    -fx-scale-x: .6;
+    -fx-scale-y: .6;
+}
+
+.bot-control-pane .token-box .svg {
+    -fx-fill: white;
+ }
+
+.bot-control-pane .token-box .svg-wrap:hover {
+    -fx-opacity: .7;
+}

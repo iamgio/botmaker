@@ -1,5 +1,6 @@
 package eu.iamgio.botmaker.ui
 
+import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
 import javafx.scene.control.Label
 import javafx.scene.input.KeyCode
@@ -14,7 +15,7 @@ class BotListNode : BrowsableVBox(true) {
         styleClass += "bot-list"
     }
 
-    inner class ListedBotNode(private val name: String) : Label(name), Actionable {
+    inner class ListedBotNode(private val bot: BotConfiguration) : Label(bot.name), Actionable {
 
         init {
             styleClass += "bot-name"
@@ -33,7 +34,7 @@ class BotListNode : BrowsableVBox(true) {
 
         fun open() {
             println("Bot $text")
-            BotControlPane(name).show()
+            BotControlPane(bot).show()
         }
 
         fun delete() {
