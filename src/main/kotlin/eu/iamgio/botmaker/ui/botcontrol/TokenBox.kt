@@ -77,6 +77,7 @@ private class EditableToken(bot: BotConfiguration) : HBox() {
         label.disableProperty().bind(editingProperty)
 
         label.prefWidthProperty().bind(root.prefWidthProperty().divide(5))
+        textField.prefWidthProperty().bind(root.prefWidthProperty().divide(4))
 
         textField.setOnAction {
             label.text = textField.text
