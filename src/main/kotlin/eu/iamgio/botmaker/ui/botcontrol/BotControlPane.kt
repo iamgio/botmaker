@@ -2,6 +2,7 @@ package eu.iamgio.botmaker.ui.botcontrol
 
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
+import eu.iamgio.botmaker.ui.withClass
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.layout.HBox
@@ -18,7 +19,7 @@ class BotControlPane(bot: BotConfiguration) : VBox() {
 
         children += HBox().apply {
             alignment = Pos.CENTER_LEFT
-            children += Label(bot.name).apply { styleClass += "title" }
+            children += Label(bot.name).withClass("title")
             children += TokenBox(bot)
         }
     }
