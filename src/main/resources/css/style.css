@@ -47,6 +47,26 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .2), 15, 0, 0, 3);
 }
 
+.menu-bar {
+    -fx-background-color: transparent;
+}
+
+.menu > .label {
+    -fx-font-size: 18;
+}
+
+.menu-item > .label {
+    -fx-font-size: 16;
+}
+
+.menu-button {
+    -fx-cursor: hand;
+}
+
+.menu-button:focused, .menu-button:hover, .menu-button:selected, .menu-button:showing {
+    -fx-background-color: transparent;
+}
+
 .bot-list .bot-name {
     -fx-padding: 5 0 5 20;
     -fx-font-size: 18;

@@ -12,6 +12,7 @@ class BotContextMenu(private val listedBotNode: BotListNode.ListedBotNode) : Con
     fun show(x: Double, y: Double) = super.show(listedBotNode.scene.window, x, y)
 
     init {
+        styleClass += "bot-context-menu"
         val openMenuItem = menuItem("botcontext.open") {
             listedBotNode.open()
         }
