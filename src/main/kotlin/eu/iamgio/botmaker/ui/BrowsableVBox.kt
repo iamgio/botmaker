@@ -16,6 +16,9 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
 
     private var index = -1
 
+    private val isValidIndex
+        get() = index >= 0 && index < children.size
+
     private fun increase() {
         if(index >= children.size - 1) {
             index = 0
@@ -51,7 +54,7 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
                 KeyCode.UP -> decrease()
                 KeyCode.DOWN -> increase()
                 else -> {
-                    if(isFocused && index >= 0 && index < children.size) {
+                    if(isFocused && isValidIndex) {
                         val node = children[index]
                         if(node is Actionable) node.onAction(it.code)
                         return@setOnKeyPressed
@@ -59,7 +62,7 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
                 }
             }
             unselect(false)
-            children[index].updateSelectedPseudoClass(true)
+            if(isValidIndex) children[index].updateSelectedPseudoClass(true)
         }
         setOnMouseClicked { requestFocus() }
 
