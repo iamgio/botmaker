@@ -2,16 +2,25 @@
     -fx-padding: 30 0 0 35;
 }
 
+.label {
+
+}
+
+.text-field {
+    -fx-background-color: rgba(255, 255, 255, .1);
+    -fx-highlight-fill: rgba(255, 255, 255, .15);
+}
+
 .title {
     -fx-font-size: 40;
     -fx-font-weight: bold;
 }
 
-.token-box > * {
+.token-box > .label, .token-box > .svg-wrap {
     -fx-opacity: 0.5;
 }
 
-.token-box .label {
+.token-box .label, .token-box .text-field {
     -fx-font-size: 15;
 }
 

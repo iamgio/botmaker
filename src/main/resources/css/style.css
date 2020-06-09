@@ -6,7 +6,7 @@
     -fx-font-smoothing-type: gray;
 }
 
-.label {
+.label, .text-field {
     -fx-font-family: Karla;
     -fx-text-fill: white;
 }
