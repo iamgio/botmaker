@@ -67,7 +67,7 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
             Platform.runLater {
                 root.addEventFilter(MouseEvent.MOUSE_CLICKED) { event ->
                     val target = children.firstOrNull { it == event.target || it == (event.target as? Node)?.parent }
-                    unselect()
+                    unselect(false)
                     index = children.indexOf(target)
                     target?.updateSelectedPseudoClass(true)
                 }
