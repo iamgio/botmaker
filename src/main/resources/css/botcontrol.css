@@ -1,0 +1,37 @@
+.bot-control-pane {
+    -fx-padding: 30 0 0 35;
+}
+
+.title {
+    -fx-font-size: 40;
+    -fx-font-weight: bold;
+}
+
+.token-box > * {
+    -fx-opacity: 0.5;
+}
+
+.token-box .label {
+    -fx-font-size: 15;
+}
+
+.token-box .token {
+    -fx-padding: 0 3 0 50;
+}
+
+.token-box .token-label {
+    -fx-padding: 0 0 0 5;
+}
+
+.token-box .svg-wrap {
+    -fx-scale-x: .6;
+    -fx-scale-y: .6;
+}
+
+.token-box .svg {
+    -fx-fill: white;
+}
+
+.token-box .svg-wrap:hover {
+    -fx-opacity: .7;
+}

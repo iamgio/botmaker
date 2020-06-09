@@ -16,6 +16,7 @@ class BotControlPane(bot: BotConfiguration) : VBox() {
 
     init {
         styleClass += "bot-control-pane"
+        stylesheets += "/css/botcontrol.css"
 
         children += HBox().apply {
             alignment = Pos.CENTER_LEFT
