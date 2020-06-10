@@ -1,5 +1,6 @@
 package eu.iamgio.botmaker.ui.botcontrol
 
+import animatefx.animation.FadeInUp
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.withClass
@@ -26,6 +27,7 @@ class BotControlPane(bot: BotConfiguration) : VBox() {
     }
 
     fun show() {
+         FadeInUp(this).setSpeed(2.0).play()
         root.rightControl.showBotControl(this)
     }
 }
