@@ -15,7 +15,7 @@ class BotListNode : BrowsableVBox(true) {
         styleClass += "bot-list"
     }
 
-    inner class ListedBotNode(private val bot: BotConfiguration) : Label(bot.name), Actionable {
+    inner class ListedBotNode(val bot: BotConfiguration) : Label(bot.name), Actionable {
 
         init {
             styleClass += "bot-name"

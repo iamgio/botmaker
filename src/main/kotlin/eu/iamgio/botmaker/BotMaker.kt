@@ -2,6 +2,7 @@ package eu.iamgio.botmaker
 
 import eu.iamgio.botmaker.bundle.ResourceBundle
 import eu.iamgio.botmaker.bundle.getString
+import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.ui.BotMakerRoot
 import javafx.application.Application
 import javafx.scene.Scene
@@ -23,7 +24,12 @@ class BotMaker : Application() {
 
     override fun start(primaryStage: Stage) {
         val (locale) = Settings.loadOrDefault(SETTINGS_PATH, Settings())
-        root = BotMakerRoot()
+
+        val bots = mutableListOf<BotConfiguration>() // TODO Load from workspace
+        bots.add(BotConfiguration("my_bot_1", "abc", emptyList()))
+        bots.add(BotConfiguration("my_bot_2", "def", emptyList()))
+
+        root = BotMakerRoot(bots)
 
         ResourceBundle.load(locale)
 
