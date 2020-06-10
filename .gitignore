@@ -1,2 +1,4 @@
 .idea/
+bots/
 *.iml
+settings.json
