@@ -22,6 +22,8 @@ class DeletePopup(private val bot: BotConfiguration) : ScenePopup("popup.delete.
     }
 
     override fun onConfirm() {
+        if(root.rightControl.currentBotControl?.bot == bot) root.rightControl.children.removeAt(1)
+
         root.leftControl.removeBot(bot)
         File(BOT_CONFIGURATIONS_PATH + File.separator + bot.name + ".json").delete()
 
