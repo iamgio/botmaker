@@ -6,6 +6,7 @@ import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.ui.BotMakerRoot
 import javafx.application.Application
 import javafx.scene.Scene
+import javafx.scene.image.Image
 import javafx.scene.text.Font
 import javafx.stage.Stage
 import java.io.File
@@ -43,6 +44,7 @@ class BotMaker : Application() {
 
         primaryStage.scene = scene
         primaryStage.title = getString("title")
+        primaryStage.icons += Image(javaClass.getResourceAsStream("/images/icon.png"))
         primaryStage.isMaximized = true
         primaryStage.show()
     }
