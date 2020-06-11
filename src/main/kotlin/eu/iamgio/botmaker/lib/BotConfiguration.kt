@@ -54,12 +54,12 @@ interface Action<T> {
 data class Actions<T>(val actions: List<Action<T>>) : Action<T> {
     override fun run(bot: Bot, event: T) = actions.forEach { it.run(bot, event) }
 }
-data class Reply(val text: Text, val showAsReply: Boolean, val notification: Boolean) : Action<Message> {
+data class Reply(val text: String, val sendAsReply: Boolean = true, val notification: Boolean = true) : Action<Message> {
     override fun run(bot: Bot, event: Message) {
         val sendMessage = SendMessage()
                 .text(text)
                 .disableNotification(!notification)
-        if (showAsReply) {
+        if (sendAsReply) {
             sendMessage.replyToMessage(event)
         } else {
             sendMessage.chat(event.chat)
