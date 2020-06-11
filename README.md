@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://i.imgur.com/AG6Zzpi.png" alt="Logo">
+    <img src="https://i.imgur.com/60yjSCz.png" alt="Logo">
 </p>
 
 # BotMaker
