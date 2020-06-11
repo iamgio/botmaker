@@ -8,7 +8,7 @@ import javafx.scene.control.TextField
 /**
  * @author Giorgio Garofalo
  */
-class NewBotPopup : ScenePopup("popup.newbot.title") {
+class NewBotPopup : ScenePopup(getString("popup.newbot.title")) {
 
     private val nameField = TextField()
     private val tokenField = TextField()

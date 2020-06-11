@@ -11,7 +11,7 @@ import java.io.File
 /**
  * @author Giorgio Garofalo
  */
-class DeletePopup(private val bot: BotConfiguration) : ScenePopup("popup.delete.title") {
+class DeletePopup(private val bot: BotConfiguration) : ScenePopup(getString("popup.delete.title", bot.name)) {
 
     init {
         alignment = Pos.CENTER

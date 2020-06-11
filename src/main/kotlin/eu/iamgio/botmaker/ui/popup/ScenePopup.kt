@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-open class ScenePopup(titleKey: String) : VBox() {
+open class ScenePopup(title: String) : VBox() {
 
     protected var nodeToFocus: Node? = null
 
@@ -23,7 +23,7 @@ open class ScenePopup(titleKey: String) : VBox() {
         styleClass += "scene-popup"
         isFocusTraversable = true
 
-        children += Label(getString(titleKey)).withClass("popup-title")
+        children += Label(title).withClass("popup-title")
 
         var isRootClicked = false
 
