@@ -1,11 +1,9 @@
 package eu.iamgio.botmaker.ui.popup
 
-import eu.iamgio.botmaker.BOT_CONFIGURATIONS_PATH
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import javafx.scene.control.TextField
-import java.io.File
 
 /**
  * @author Giorgio Garofalo
@@ -37,7 +35,7 @@ class NewBotPopup : ScenePopup("popup.newbot.title") {
         hide()
 
         val bot = BotConfiguration(nameField.text, tokenField.text, emptyList())
-        bot.save(BOT_CONFIGURATIONS_PATH + File.separator + bot.name + ".json")
+        bot.save()
         root.leftControl.addBot(bot)
     }
 }

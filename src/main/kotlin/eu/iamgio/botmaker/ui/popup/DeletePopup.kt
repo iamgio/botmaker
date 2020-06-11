@@ -1,6 +1,5 @@
 package eu.iamgio.botmaker.ui.popup
 
-import eu.iamgio.botmaker.BOT_CONFIGURATIONS_PATH
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
@@ -25,7 +24,7 @@ class DeletePopup(private val bot: BotConfiguration) : ScenePopup("popup.delete.
         if(root.rightControl.currentBotControl?.bot == bot) root.rightControl.children.removeAt(1)
 
         root.leftControl.removeBot(bot)
-        File(BOT_CONFIGURATIONS_PATH + File.separator + bot.name + ".json").delete()
+        File(bot.path).delete()
 
         hide()
     }

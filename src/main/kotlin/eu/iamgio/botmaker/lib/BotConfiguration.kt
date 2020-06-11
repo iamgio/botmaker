@@ -1,14 +1,18 @@
 package eu.iamgio.botmaker.lib
 
+import eu.iamgio.botmaker.BOT_CONFIGURATIONS_PATH
 import eu.iamgio.botmaker.lib.gson.gson
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.messages.*
 import io.github.ageofwar.telejam.methods.SendMessage
-import io.github.ageofwar.telejam.text.Text
 import java.io.File
 
 data class BotConfiguration(val name: String, val botToken: String, val messageEvents: List<MessageEvent>) {
-    fun save(path: String) {
+
+    val path: String
+        get() = BOT_CONFIGURATIONS_PATH + File.separator + name + ".json"
+
+    fun save(path: String = this.path) {
         File(path).also { it.parentFile.mkdirs() }.writer().use {
             gson.toJson(this, it)
         }
