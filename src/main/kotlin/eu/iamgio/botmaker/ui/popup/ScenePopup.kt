@@ -1,6 +1,7 @@
 package eu.iamgio.botmaker.ui.popup
 
 import animatefx.animation.ZoomIn
+import animatefx.animation.ZoomOut
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.withClass
@@ -45,7 +46,12 @@ open class ScenePopup(titleKey: String) : VBox() {
     }
 
     fun hide() {
-        root.children -= this
+        ZoomOut(this).setSpeed(3.0).let {
+            it.setOnFinished {
+                root.children -= this
+            }
+            it.play()
+        }
     }
 
     open fun onConfirm() {}
