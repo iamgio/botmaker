@@ -61,4 +61,12 @@ open class ScenePopup(titleKey: String) : VBox() {
                 Label(getString(textKey)).withClass("confirm").apply { setOnMouseClicked { onConfirm() } }
         ).apply { alignment = Pos.CENTER }
     }
+
+    fun addError(node: Node) {
+        if("error" !in node.styleClass) node.styleClass += "error"
+    }
+
+    fun removeError(node: Node) {
+        if("error" in node.styleClass) node.styleClass -= "error"
+    }
 }

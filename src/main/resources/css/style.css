@@ -17,6 +17,11 @@
     -fx-prompt-text-fill: rgba(255, 255, 255, .4);
 }
 
+.error {
+    -fx-effect: dropshadow(gaussian, maroon, 10, 0, 0, 1);
+    -fx-text-fill: #ff4f4f;
+}
+
 .root {
     -fx-background-color: -fx-dark;
 }
