@@ -9,6 +9,9 @@ import javafx.application.Platform
  */
 class RightSplitControl : SplitControl() {
 
+    var currentBotControl: BotControlPane? = null
+        private set
+
     init {
         styleClass += "right-control"
 
@@ -24,5 +27,6 @@ class RightSplitControl : SplitControl() {
         } else {
             children[1] = botControlPane
         }
+        currentBotControl = botControlPane
     }
 }

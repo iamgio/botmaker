@@ -1,6 +1,7 @@
 package eu.iamgio.botmaker.ui
 
 import eu.iamgio.botmaker.lib.BotConfiguration
+import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
 import javafx.scene.control.Label
 import javafx.scene.input.KeyCode
@@ -34,12 +35,12 @@ class BotListNode : BrowsableVBox(true) {
 
         fun open() {
             println("Bot $text")
-            BotControlPane(bot).show()
+            if(root.rightControl.currentBotControl?.bot != bot) BotControlPane(bot).show()
         }
 
         fun delete() {
             println("Delete $text")
-            // TODO
+            // TODO show dialog
         }
 
         override fun onAction(keyCode: KeyCode) {
