@@ -40,13 +40,13 @@ open class ScenePopup(titleKey: String) : VBox() {
     }
 
     fun show() {
-        ZoomIn(this).setSpeed(2.5).play()
+        ZoomIn(this).setSpeed(4.0).play()
         root.children += this
         repeat(2) { nodeToFocus?.requestFocus() }
     }
 
     fun hide() {
-        ZoomOut(this).setSpeed(3.0).let {
+        ZoomOut(this).setSpeed(4.0).let {
             it.setOnFinished {
                 root.children -= this
             }
