@@ -3,6 +3,7 @@ package eu.iamgio.botmaker.ui
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
+import eu.iamgio.botmaker.ui.popup.DeletePopup
 import javafx.scene.control.Label
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
@@ -34,13 +35,15 @@ class BotListNode : BrowsableVBox(true) {
         }
 
         fun open() {
-            println("Bot $text")
             if(root.rightControl.currentBotControl?.bot != bot) BotControlPane(bot).show()
         }
 
         fun delete() {
-            println("Delete $text")
-            // TODO show dialog
+            val bounds = boundsInParent
+            val popup = DeletePopup(bot)
+            popup.translateX = 10.0
+            popup.translateY = bounds.maxY + 85.0
+            popup.show()
         }
 
         override fun onAction(keyCode: KeyCode) {
