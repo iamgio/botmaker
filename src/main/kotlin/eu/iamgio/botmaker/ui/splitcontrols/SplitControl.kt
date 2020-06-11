@@ -5,7 +5,7 @@ import javafx.geometry.Pos
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 
-private const val NAVBAR_HEIGHT = 60.0
+const val NAVBAR_HEIGHT = 60.0
 
 /**
  * @author Giorgio Garofalo

@@ -2,6 +2,7 @@ package eu.iamgio.botmaker.ui.splitcontrols
 
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.ui.BotListNode
+import eu.iamgio.botmaker.ui.popup.NewBotPopup
 import javafx.scene.control.Label
 import javafx.scene.control.SplitPane
 
@@ -20,7 +21,10 @@ class LeftSplitControl(private val bots: MutableList<BotConfiguration>) : SplitC
             styleClass += "add-bot-button"
             setOnMouseClicked {
                 println("Add bot")
-                // TODO add bot
+                val popup = NewBotPopup()
+                popup.translateX = 5.0
+                popup.translateY = NAVBAR_HEIGHT - 5.0
+                popup.show()
             }
         }
 

@@ -11,6 +11,12 @@
     -fx-text-fill: white;
 }
 
+.text-field {
+    -fx-background-color: rgba(255, 255, 255, .1);
+    -fx-highlight-fill: rgba(255, 255, 255, .15);
+    -fx-prompt-text-fill: rgba(255, 255, 255, .4);
+}
+
 .root {
     -fx-background-color: -fx-dark;
 }
@@ -105,4 +111,39 @@
 
 .menu-item:focused {
     -fx-background-color: rgba(255, 255, 255, .1);
+}
+
+.scene-popup {
+    -fx-background-color: derive(-fx-dark, 10%);
+    -fx-padding: 15;
+    -fx-background-radius: 10;
+    -fx-spacing: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .2), 15, 0, 0, 5);
+}
+
+.scene-popup > .popup-title {
+    -fx-font-size: 18;
+    -fx-padding: 0 0 10 0;
+    -fx-font-weight: bold;
+}
+
+.scene-popup .text-field {
+    -fx-font-size: 16;
+}
+
+.scene-popup .confirm {
+    -fx-font-size: 16;
+    -fx-background-color: rgba(255, 255, 255, .1);
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 10;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.scene-popup .confirm:hover {
+    -fx-background-color: rgba(255, 255, 255, .15);
+}
+
+.scene-popup .confirm:pressed {
+    -fx-background-color: rgba(255, 255, 255, .2);
 }
