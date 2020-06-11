@@ -1,6 +1,7 @@
 package eu.iamgio.botmaker.ui.botcontrol
 
 import animatefx.animation.FadeInUp
+import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.withClass
@@ -23,6 +24,13 @@ class BotControlPane(bot: BotConfiguration) : VBox() {
             alignment = Pos.CENTER_LEFT
             children += Label(bot.name).withClass("title")
             children += TokenBox(bot)
+        }
+
+        children += Label("+ ${getString("new.event")}").withClass("new").apply {
+            setOnMouseClicked {
+                println("New event")
+                // TODO new event
+            }
         }
     }
 
