@@ -54,7 +54,3 @@ class BotMaker : Application() {
         return File(path).also { it.mkdirs() }.listFiles()!!.map { BotConfiguration.fromJson(it.path) }.toMutableList()
     }
 }
-
-fun main() {
-    Application.launch(BotMaker::class.java)
-}
