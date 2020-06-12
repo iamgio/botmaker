@@ -14,14 +14,14 @@ import javafx.scene.layout.HBox
 /**
  * @author Giorgio Garofalo
  */
-class TokenBox(bot: BotConfiguration) : HBox() {
+class TokenBox(bot: BotConfiguration, botControl: BotControlPane) : HBox() {
 
     init {
         alignment = Pos.CENTER_LEFT
         styleClass += "token-box"
         children += Label(getString("token")).withClass("token")
 
-        val editableToken = EditableToken(bot)
+        val editableToken = EditableToken(bot, botControl)
 
         // Visibility on/off button
         children += createSvg().apply {
@@ -49,7 +49,7 @@ class TokenBox(bot: BotConfiguration) : HBox() {
     }
 }
 
-private class EditableToken(bot: BotConfiguration) : HBox() {
+private class EditableToken(bot: BotConfiguration, botControl: BotControlPane) : HBox() {
 
     private val label = Label(bot.botToken).withClass("token-label").apply { isWrapText = true }
     private val textField = TextField()
@@ -82,7 +82,8 @@ private class EditableToken(bot: BotConfiguration) : HBox() {
         textField.setOnAction {
             label.text = textField.text
             toggle()
-            // TODO change token
+            bot.botToken = label.text
+            botControl.autosave()
         }
         textField.setOnKeyReleased {
             if(it.code == KeyCode.ESCAPE) toggle()

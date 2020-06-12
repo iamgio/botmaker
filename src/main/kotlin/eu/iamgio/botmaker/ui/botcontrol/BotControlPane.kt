@@ -23,7 +23,7 @@ class BotControlPane(val bot: BotConfiguration) : VBox() {
         children += HBox().apply {
             alignment = Pos.CENTER_LEFT
             children += Label(bot.name).withClass("title")
-            children += TokenBox(bot)
+            children += TokenBox(bot, this@BotControlPane)
         }
 
         children += Label("+ ${getString("new.event")}").withClass("new").apply {
@@ -37,5 +37,11 @@ class BotControlPane(val bot: BotConfiguration) : VBox() {
     fun show() {
         FadeInUp(this).setSpeed(2.0).play()
         root.rightControl.showBotControl(this)
+    }
+
+    fun save() = bot.save()
+
+    fun autosave() {
+        if(true /* TODO get autosave boolean from settings */) save()
     }
 }

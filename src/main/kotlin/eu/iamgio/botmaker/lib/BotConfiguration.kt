@@ -7,7 +7,7 @@ import io.github.ageofwar.telejam.messages.*
 import io.github.ageofwar.telejam.methods.SendMessage
 import java.io.File
 
-data class BotConfiguration(val name: String, val botToken: String, val messageEvents: List<MessageEvent>) {
+data class BotConfiguration(val name: String, var botToken: String, val messageEvents: List<MessageEvent>) {
 
     val path: String
         get() = BOT_CONFIGURATIONS_PATH + File.separator + name + ".json"
