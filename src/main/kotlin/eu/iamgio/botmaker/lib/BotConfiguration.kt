@@ -2,6 +2,7 @@ package eu.iamgio.botmaker.lib
 
 import eu.iamgio.botmaker.BOT_CONFIGURATIONS_PATH
 import eu.iamgio.botmaker.lib.gson.gson
+import eu.iamgio.botmaker.lib.telejam.text
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.messages.*
 import io.github.ageofwar.telejam.methods.SendMessage
@@ -39,16 +40,7 @@ data class Filters<T>(val filters: List<List<Filter<T>>>) : Filter<T> {
 }
 data class IfMessageStartsWith(val text: String) : Filter<Message> {
     override fun filter(event: Message): Boolean {
-        return when (event) {
-            is TextMessage -> event.text.startsWith(text)
-            is PhotoMessage -> event.caption.map { it.startsWith(text) }.orElse(false)
-            is VideoMessage -> event.caption.map { it.startsWith(text) }.orElse(false)
-            is VoiceMessage -> event.caption.map { it.startsWith(text) }.orElse(false)
-            is AudioMessage -> event.caption.map { it.startsWith(text) }.orElse(false)
-            is AnimationMessage -> event.caption.map { it.startsWith(text) }.orElse(false)
-            is DocumentMessage -> event.caption.map { it.startsWith(text) }.orElse(false)
-            else -> false
-        }
+        return event.text?.startsWith(text) ?: false
     }
 }
 
