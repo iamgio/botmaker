@@ -31,6 +31,7 @@ class EventNode(event: Event<*>) : VBox() {
         }
 
         addAction(event.filter)
+        addAction(event.action)
     }
 
     private fun addAction(eventComponent: EventComponent<*>) {

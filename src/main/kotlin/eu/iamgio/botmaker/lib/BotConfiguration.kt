@@ -81,4 +81,6 @@ data class Reply(val text: String, val sendAsReply: Boolean = true, val notifica
         }
         bot.execute(sendMessage)
     }
+
+    override fun toUI() = arrayOf(text("reply"), field())
 }
