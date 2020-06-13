@@ -1,7 +1,6 @@
 package eu.iamgio.botmaker.ui.botcontrol
 
 import eu.iamgio.botmaker.bundle.getString
-import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.*
 import javafx.beans.property.SimpleBooleanProperty
@@ -14,14 +13,14 @@ import javafx.scene.layout.HBox
 /**
  * @author Giorgio Garofalo
  */
-class TokenBox(bot: BotConfiguration, botControl: BotControlPane) : HBox() {
+class TokenBox(botControl: BotControlPane) : HBox() {
 
     init {
         alignment = Pos.CENTER_LEFT
         styleClass += "token-box"
         children += Label(getString("token")).withClass("token")
 
-        val editableToken = EditableToken(bot, botControl)
+        val editableToken = EditableToken(botControl)
 
         // Visibility on/off button
         children += createSvg().apply {
@@ -49,9 +48,9 @@ class TokenBox(bot: BotConfiguration, botControl: BotControlPane) : HBox() {
     }
 }
 
-private class EditableToken(bot: BotConfiguration, botControl: BotControlPane) : HBox() {
+private class EditableToken(botControl: BotControlPane) : HBox() {
 
-    private val label = Label(bot.botToken).withClass("token-label").apply { isWrapText = true }
+    private val label = Label(botControl.botToken).withClass("token-label").apply { isWrapText = true }
     private val textField = TextField()
 
     val editingProperty = SimpleBooleanProperty()
@@ -82,7 +81,7 @@ private class EditableToken(bot: BotConfiguration, botControl: BotControlPane) :
         textField.setOnAction {
             label.text = textField.text
             toggle()
-            // bot.botToken = label.text
+            botControl.botToken = label.text
             botControl.autosave()
         }
         textField.setOnKeyReleased {

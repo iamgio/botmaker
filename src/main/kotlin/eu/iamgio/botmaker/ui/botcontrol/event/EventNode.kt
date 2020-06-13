@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-class EventNode(event: Event<*>) : VBox() {
+class EventNode<T>(private val event: Event<T>) : VBox() {
 
     private val actionsVBox = VBox().withClass("actions")
 
@@ -34,18 +34,31 @@ class EventNode(event: Event<*>) : VBox() {
         addAction(event.action)
     }
 
-    private fun addAction(eventComponent: EventComponent<*>) {
-        val graphics = eventComponent.toUI()
-        val flowPane = FlowPane().apply { hgap = 10.0 }
+    fun toEvent(): Event<T> {
+        return event // TODO
+    }
 
-        graphics.forEach {
-            flowPane.children += when(it) {
-                is EventComponent.EventComponentText -> Label(getString(it.textKey)).withClass("event-action")
-                is EventComponent.EventComponentField -> TextField()
-                else -> null
+    private fun addAction(eventComponent: EventComponent<*>) {
+        actionsVBox.children.add(actionsVBox.children.size - 1, EventFlowPane(eventComponent))
+    }
+
+    inner class EventFlowPane(private val eventComponent: EventComponent<*>) : FlowPane() {
+
+        init {
+            hgap = 10.0
+            val graphics = eventComponent.toUI()
+
+            graphics.forEach {
+                children += when(it) {
+                    is EventComponent.EventComponentText -> Label(getString(it.textKey)).withClass("event-action")
+                    is EventComponent.EventComponentField -> TextField()
+                    else -> null
+                }
             }
         }
 
-        actionsVBox.children.add(actionsVBox.children.size - 1, flowPane)
+        fun toEventComponent(): EventComponent<*> {
+            return eventComponent // TODO
+        }
     }
 }
