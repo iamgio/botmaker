@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox
  * Pane which covers the whole second part of the main SplitPane. Contains all the controls needed to make/edit a bot.
  * @author Giorgio Garofalo
  */
-class BotControlPane(val name: String, val bot: BotConfiguration) : VBox() {
+class BotControlPane(val name: String, bot: BotConfiguration) : VBox() {
 
     private val eventsVBox = VBox()
 
@@ -48,7 +48,8 @@ class BotControlPane(val name: String, val bot: BotConfiguration) : VBox() {
         root.rightControl.showBotControl(this)
     }
 
-    fun save() = bot.save(name)
+    fun save() = toBotConfiguration().save(name)
+    fun toBotConfiguration(): BotConfiguration = TODO()
 
     fun autosave() {
         if(true /* TODO get autosave boolean from settings */) save()
