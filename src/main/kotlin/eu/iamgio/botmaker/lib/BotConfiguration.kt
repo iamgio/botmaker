@@ -35,7 +35,19 @@ interface Event<T> {
 
 data class MessageEvent(override val filter: Filter<Message>, override val action: Action<Message>) : Event<Message>
 
-interface Filter<T> {
+interface EventComponent<T> {
+    // Classes that allow the component to be displayed on the UI
+    open class EventComponentGraphics
+    class EventComponentText(val textKey: String) : EventComponentGraphics()
+    class EventComponentField : EventComponentGraphics()
+
+    fun text(textKey: String) = EventComponentText("event.action." + javaClass.simpleName + "." + textKey)
+    fun field() = EventComponentField()
+
+    fun toUI(): Array<out EventComponentGraphics> = emptyArray()
+}
+
+interface Filter<T> : EventComponent<T> {
     fun filter(event: T): Boolean
 }
 data class Filters<T>(val filters: List<List<Filter<T>>>) : Filter<T> {
@@ -47,9 +59,11 @@ data class IfMessageStartsWith(val text: String) : Filter<Message> {
     override fun filter(event: Message): Boolean {
         return event.text?.startsWith(text) ?: false
     }
+
+    override fun toUI() = arrayOf(text("ifstarts"), field())
 }
 
-interface Action<T> {
+interface Action<T> : EventComponent<T> {
     fun run(bot: Bot, event: T)
 }
 data class Actions<T>(val actions: List<Action<T>>) : Action<T> {

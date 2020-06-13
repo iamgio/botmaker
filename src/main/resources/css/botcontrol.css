@@ -71,3 +71,7 @@
 .event .event-action {
     -fx-font-size: 20;
 }
+
+.event .text-field {
+    -fx-font-size: 18;
+}
