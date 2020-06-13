@@ -17,7 +17,7 @@ class BotListNode : BrowsableVBox(true) {
         styleClass += "bot-list"
     }
 
-    inner class ListedBotNode(val bot: BotConfiguration) : Label(bot.name), Actionable {
+    inner class ListedBotNode(val name: String, val bot: BotConfiguration) : Label(name), Actionable {
 
         init {
             styleClass += "bot-name"
@@ -35,12 +35,12 @@ class BotListNode : BrowsableVBox(true) {
         }
 
         fun open() {
-            if(root.rightControl.currentBotControl?.bot != bot) BotControlPane(bot).show()
+            if(root.rightControl.currentBotControl?.name != name) BotControlPane(name, bot).show()
         }
 
         fun delete() {
             val bounds = boundsInParent
-            val popup = DeletePopup(bot)
+            val popup = DeletePopup(name, bot)
             popup.translateX = 10.0
             popup.translateY = bounds.maxY + 85.0
             popup.show()

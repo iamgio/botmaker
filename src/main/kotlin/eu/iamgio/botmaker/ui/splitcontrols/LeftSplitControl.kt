@@ -9,7 +9,7 @@ import javafx.scene.control.SplitPane
 /**
  * @author Giorgio Garofalo
  */
-class LeftSplitControl(private val bots: MutableList<BotConfiguration>) : SplitControl() {
+class LeftSplitControl(private val bots: MutableMap<String, BotConfiguration>) : SplitControl() {
 
     private val botList: BotListNode
 
@@ -29,19 +29,19 @@ class LeftSplitControl(private val bots: MutableList<BotConfiguration>) : SplitC
         }
 
         botList = BotListNode().apply { prefWidthProperty().bind(this@LeftSplitControl.widthProperty()) }
-        botList.children.addAll(bots.map { botList.ListedBotNode(it) })
+        botList.children.addAll(bots.map { (name, bot) -> botList.ListedBotNode(name, bot) })
 
         children += botList
     }
 
-    fun addBot(bot: BotConfiguration) {
-        bots += bot
-        botList.children += botList.ListedBotNode(bot)
+    fun addBot(name: String, bot: BotConfiguration) {
+        bots[name] = bot
+        botList.children += botList.ListedBotNode(name, bot)
     }
 
-    fun removeBot(bot: BotConfiguration) {
-        bots -= bot
+    fun removeBot(name: String) {
+        bots -= name
         botList.children -= botList.children.filterIsInstance<BotListNode.ListedBotNode>()
-                .firstOrNull { it.bot == bot }
+                .firstOrNull { it.name == name }
     }
 }

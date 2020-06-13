@@ -14,9 +14,6 @@ import java.io.File
 const val SCENE_WIDTH = 900.0
 const val SCENE_HEIGHT = 600.0
 
-const val SETTINGS_PATH = "./settings.json"
-const val BOT_CONFIGURATIONS_PATH = "./bots"
-
 lateinit var root: BotMakerRoot
     private set
 
@@ -26,8 +23,8 @@ lateinit var root: BotMakerRoot
 class BotMaker : Application() {
 
     override fun start(primaryStage: Stage) {
-        val (locale) = Settings.loadOrDefault(SETTINGS_PATH, Settings())
-        val bots = loadBotConfigurations(BOT_CONFIGURATIONS_PATH)
+        val (locale) = loadSettingsOrDefault()
+        val bots = loadBotConfigurations()
 
         root = BotMakerRoot(bots)
 
@@ -50,7 +47,4 @@ class BotMaker : Application() {
     }
 
     private fun loadFont(name: String) = Font.loadFont(javaClass.getResourceAsStream("/font/$name"), 18.0)
-    private fun loadBotConfigurations(path: String): MutableList<BotConfiguration> {
-        return File(path).also { it.mkdirs() }.listFiles()!!.map { BotConfiguration.fromJson(it.path) }.toMutableList()
-    }
 }

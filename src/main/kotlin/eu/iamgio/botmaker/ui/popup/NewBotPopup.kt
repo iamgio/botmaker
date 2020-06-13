@@ -3,6 +3,7 @@ package eu.iamgio.botmaker.ui.popup
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
+import eu.iamgio.botmaker.save
 import javafx.scene.control.TextField
 
 /**
@@ -33,9 +34,11 @@ class NewBotPopup : ScenePopup(getString("popup.newbot.title")) {
             return
         }
         hide()
+        val token = tokenField.text
+        val name = nameField.text
 
-        val bot = BotConfiguration(nameField.text, tokenField.text, emptyList())
-        bot.save()
-        root.leftControl.addBot(bot)
+        val bot = BotConfiguration(token, emptyList())
+        bot.save(name)
+        root.leftControl.addBot(name, bot)
     }
 }

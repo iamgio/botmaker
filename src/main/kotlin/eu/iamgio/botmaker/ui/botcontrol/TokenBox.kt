@@ -82,7 +82,7 @@ private class EditableToken(bot: BotConfiguration, botControl: BotControlPane) :
         textField.setOnAction {
             label.text = textField.text
             toggle()
-            bot.botToken = label.text
+            // bot.botToken = label.text
             botControl.autosave()
         }
         textField.setOnKeyReleased {

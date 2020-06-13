@@ -1,17 +1,17 @@
 package eu.iamgio.botmaker.ui.popup
 
 import eu.iamgio.botmaker.bundle.getString
+import eu.iamgio.botmaker.deleteBotConfiguration
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.text.TextAlignment
-import java.io.File
 
 /**
  * @author Giorgio Garofalo
  */
-class DeletePopup(private val bot: BotConfiguration) : ScenePopup(getString("popup.delete.title", bot.name)) {
+class DeletePopup(private val name: String, private val bot: BotConfiguration) : ScenePopup(getString("popup.delete.title", name)) {
 
     init {
         alignment = Pos.CENTER
@@ -21,10 +21,10 @@ class DeletePopup(private val bot: BotConfiguration) : ScenePopup(getString("pop
     }
 
     override fun onConfirm() {
-        if(root.rightControl.currentBotControl?.bot == bot) root.rightControl.children.removeAt(1)
+        if(root.rightControl.currentBotControl?.name == name) root.rightControl.children.removeAt(1)
 
-        root.leftControl.removeBot(bot)
-        File(bot.path).delete()
+        root.leftControl.removeBot(name)
+        deleteBotConfiguration(name)
 
         hide()
     }

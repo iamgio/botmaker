@@ -9,7 +9,7 @@ import javafx.scene.layout.AnchorPane
 /**
  * @author Giorgio Garofalo
  */
-class BotMakerRoot(bots: MutableList<BotConfiguration>) : AnchorPane() {
+class BotMakerRoot(bots: MutableMap<String, BotConfiguration>) : AnchorPane() {
 
     private val splitPane = SplitPane().apply {
         bindSize(this@BotMakerRoot)

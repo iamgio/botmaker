@@ -2,11 +2,9 @@ package eu.iamgio.botmaker.ui.botcontrol
 
 import animatefx.animation.FadeInUp
 import eu.iamgio.botmaker.bundle.getString
-import eu.iamgio.botmaker.lib.BotConfiguration
-import eu.iamgio.botmaker.lib.IfMessageStartsWith
-import eu.iamgio.botmaker.lib.MessageEvent
-import eu.iamgio.botmaker.lib.Reply
+import eu.iamgio.botmaker.lib.*
 import eu.iamgio.botmaker.root
+import eu.iamgio.botmaker.save
 import eu.iamgio.botmaker.ui.botcontrol.event.EventNode
 import eu.iamgio.botmaker.ui.withClass
 import javafx.geometry.Pos
@@ -19,7 +17,7 @@ import javafx.scene.layout.VBox
  * Pane which covers the whole second part of the main SplitPane. Contains all the controls needed to make/edit a bot.
  * @author Giorgio Garofalo
  */
-class BotControlPane(val bot: BotConfiguration) : VBox() {
+class BotControlPane(val name: String, val bot: BotConfiguration) : VBox() {
 
     private val eventsVBox = VBox()
 
@@ -29,7 +27,7 @@ class BotControlPane(val bot: BotConfiguration) : VBox() {
 
         children += HBox().apply {
             alignment = Pos.CENTER_LEFT
-            children += Label(bot.name).withClass("title")
+            children += Label(name).withClass("title")
             children += TokenBox(bot, this@BotControlPane)
         }
 
@@ -41,7 +39,7 @@ class BotControlPane(val bot: BotConfiguration) : VBox() {
         }
 
         children += ScrollPane(eventsVBox).withClass("edge-to-edge")
-        val event = MessageEvent(IfMessageStartsWith("test"), Reply("abc")) // Test
+        val event = Event(IfMessageStartsWith("test"), Reply("abc")) // Test
         eventsVBox.children += EventNode(event)
     }
 
@@ -50,7 +48,7 @@ class BotControlPane(val bot: BotConfiguration) : VBox() {
         root.rightControl.showBotControl(this)
     }
 
-    fun save() = bot.save()
+    fun save() = bot.save(name)
 
     fun autosave() {
         if(true /* TODO get autosave boolean from settings */) save()
