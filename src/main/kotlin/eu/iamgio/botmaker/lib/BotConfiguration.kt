@@ -4,7 +4,7 @@ import eu.iamgio.botmaker.BOT_CONFIGURATIONS_PATH
 import eu.iamgio.botmaker.lib.gson.gson
 import eu.iamgio.botmaker.lib.telejam.text
 import io.github.ageofwar.telejam.Bot
-import io.github.ageofwar.telejam.messages.*
+import io.github.ageofwar.telejam.messages.Message
 import io.github.ageofwar.telejam.methods.SendMessage
 import java.io.File
 
@@ -28,7 +28,12 @@ data class BotConfiguration(val name: String, var botToken: String, val messageE
     }
 }
 
-data class MessageEvent(val filter: Filter<Message>, val action: Action<Message>)
+interface Event<T> {
+    val filter: Filter<T>
+    val action: Action<T>
+}
+
+data class MessageEvent(override val filter: Filter<Message>, override val action: Action<Message>) : Event<Message>
 
 interface Filter<T> {
     fun filter(event: T): Boolean

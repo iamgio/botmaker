@@ -3,10 +3,15 @@ package eu.iamgio.botmaker.ui.botcontrol
 import animatefx.animation.FadeInUp
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
+import eu.iamgio.botmaker.lib.IfMessageStartsWith
+import eu.iamgio.botmaker.lib.MessageEvent
+import eu.iamgio.botmaker.lib.Reply
 import eu.iamgio.botmaker.root
+import eu.iamgio.botmaker.ui.botcontrol.event.EventNode
 import eu.iamgio.botmaker.ui.withClass
 import javafx.geometry.Pos
 import javafx.scene.control.Label
+import javafx.scene.control.ScrollPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 
@@ -15,6 +20,8 @@ import javafx.scene.layout.VBox
  * @author Giorgio Garofalo
  */
 class BotControlPane(val bot: BotConfiguration) : VBox() {
+
+    private val eventsVBox = VBox()
 
     init {
         styleClass += "bot-control-pane"
@@ -32,6 +39,10 @@ class BotControlPane(val bot: BotConfiguration) : VBox() {
                 // TODO new event
             }
         }
+
+        children += ScrollPane(eventsVBox).withClass("edge-to-edge")
+        val event = MessageEvent(IfMessageStartsWith("test"), Reply("abc")) // Test
+        eventsVBox.children += EventNode(event)
     }
 
     fun show() {

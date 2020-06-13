@@ -51,3 +51,12 @@
 .new:pressed {
     -fx-opacity: .7;
 }
+
+.event {
+    -fx-padding: 40 0 20 0;
+}
+
+.event .event-title {
+    -fx-font-size: 25;
+    -fx-font-weight: bold;
+}

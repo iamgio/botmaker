@@ -16,7 +16,7 @@ open class SplitControl : VBox() {
         styleClass += "nav-bar"
         bindSize(this@SplitControl, bindHeight = false)
         prefHeight = NAVBAR_HEIGHT
-        maxHeight = NAVBAR_HEIGHT
+        minHeight = NAVBAR_HEIGHT
         alignment = Pos.CENTER_LEFT
     }
 

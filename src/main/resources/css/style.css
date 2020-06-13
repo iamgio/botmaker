@@ -26,6 +26,28 @@
     -fx-background-color: -fx-dark;
 }
 
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-hbar-policy: never;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: rgba(255, 255, 255, .1);
+    -fx-padding: 50;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-opacity: 0;
+}
+
 .split-pane {
     -fx-box-border: transparent;
     -fx-padding: 0;
