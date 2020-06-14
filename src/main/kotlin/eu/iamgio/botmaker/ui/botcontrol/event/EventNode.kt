@@ -62,7 +62,7 @@ class EventNode<T>(event: Event<T>) : VBox() {
                     is EventComponent.EventComponentText -> Label(getString(it.textKey)).withClass("event-action")
                     is EventComponent.EventComponentField -> TextField().also { textField ->
                         textField.text = it.content
-                        it.textField = textField
+                        it.textProperty.bind(textField.textProperty())
                     }
                     else -> null
                 }

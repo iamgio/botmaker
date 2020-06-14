@@ -2,7 +2,7 @@ package eu.iamgio.botmaker.lib
 
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.messages.Message
-import javafx.scene.control.TextField
+import javafx.beans.property.SimpleStringProperty
 import kotlin.reflect.KProperty
 
 data class BotConfiguration(val botToken: String, val messageEvents: List<Event<Message>> = emptyList())
@@ -22,9 +22,9 @@ interface EventComponent<T> {
     open class EventComponentGraphics
     class EventComponentText(val textKey: String) : EventComponentGraphics()
     class EventComponentField(val content: String, val property: KProperty<*>) : EventComponentGraphics() {
-        lateinit var textField: TextField
+        val textProperty = SimpleStringProperty()
         val text: String
-            get() = textField.text
+            get() = textProperty.value
     }
 
     fun text(textKey: String) = EventComponentText("event.action." + javaClass.simpleName + "." + textKey)
