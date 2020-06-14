@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-class EventNode<T>(private val event: Event<T>) : VBox() {
+class EventNode<T>(event: Event<T>) : VBox() {
 
     private val actionsVBox = VBox().withClass("actions")
 

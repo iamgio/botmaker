@@ -3,9 +3,6 @@ package eu.iamgio.botmaker.ui.botcontrol
 import animatefx.animation.FadeInUp
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
-import eu.iamgio.botmaker.lib.Event
-import eu.iamgio.botmaker.lib.IfMessageStartsWith
-import eu.iamgio.botmaker.lib.Reply
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.save
 import eu.iamgio.botmaker.ui.botcontrol.event.EventNode
@@ -44,8 +41,10 @@ class BotControlPane(val name: String, bot: BotConfiguration) : VBox() {
         }
 
         children += ScrollPane(eventsVBox).withClass("edge-to-edge")
-        val event = Event(IfMessageStartsWith("test"), Reply("abc")) // Test
-        eventsVBox.children += EventNode(event)
+
+        bot.messageEvents.forEach {
+            eventsVBox.children += EventNode(it)
+        }
     }
 
     fun show() {
