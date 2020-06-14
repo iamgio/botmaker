@@ -8,5 +8,9 @@ data class IfMessageStartsWith(val text: String) : Filter<Message> {
         return event.text?.startsWith(text) ?: false
     }
 
-    override fun toUI() = arrayOf(text("ifstarts"), field())
+    override fun toUI() = arrayOf(text("ifstarts"), field(text, this::text))
+
+    override fun fromUI(graphics: Array<out EventComponent.EventComponentGraphics>): EventComponent<Message> {
+        return IfMessageStartsWith(graphics.getValueFromProperty(this::text))
+    }
 }

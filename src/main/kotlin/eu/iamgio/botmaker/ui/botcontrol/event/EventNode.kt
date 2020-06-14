@@ -1,8 +1,10 @@
 package eu.iamgio.botmaker.ui.botcontrol.event
 
 import eu.iamgio.botmaker.bundle.getString
+import eu.iamgio.botmaker.lib.Action
 import eu.iamgio.botmaker.lib.Event
 import eu.iamgio.botmaker.lib.EventComponent
+import eu.iamgio.botmaker.lib.Filter
 import eu.iamgio.botmaker.ui.withClass
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
@@ -35,30 +37,40 @@ class EventNode<T>(private val event: Event<T>) : VBox() {
     }
 
     fun toEvent(): Event<T> {
-        return event // TODO
+        val eventFlowPanes = actionsVBox.children.filterIsInstance<EventFlowPane<T>>()
+        // TODO support multiple filters/actions
+        return Event(
+                eventFlowPanes.first { it.eventComponent is Filter }.toEventComponent() as Filter<T>,
+                eventFlowPanes.first { it.eventComponent is Action }.toEventComponent() as Action<T>
+        )
     }
 
-    private fun addAction(eventComponent: EventComponent<*>) {
+    private fun addAction(eventComponent: EventComponent<T>) {
         actionsVBox.children.add(actionsVBox.children.size - 1, EventFlowPane(eventComponent))
     }
 
-    inner class EventFlowPane(private val eventComponent: EventComponent<*>) : FlowPane() {
+    inner class EventFlowPane<T>(val eventComponent: EventComponent<T>) : FlowPane() {
+
+        private val graphics: Array<out EventComponent.EventComponentGraphics>
 
         init {
             hgap = 10.0
-            val graphics = eventComponent.toUI()
+            graphics = eventComponent.toUI()
 
             graphics.forEach {
                 children += when(it) {
                     is EventComponent.EventComponentText -> Label(getString(it.textKey)).withClass("event-action")
-                    is EventComponent.EventComponentField -> TextField()
+                    is EventComponent.EventComponentField -> TextField().also { textField ->
+                        textField.text = it.content
+                        it.textField = textField
+                    }
                     else -> null
                 }
             }
         }
 
-        fun toEventComponent(): EventComponent<*> {
-            return eventComponent // TODO
+        fun toEventComponent(): EventComponent<T> {
+            return eventComponent.fromUI(graphics)
         }
     }
 }

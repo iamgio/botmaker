@@ -21,5 +21,9 @@ data class Reply(val text: String, val sendAsReply: Boolean = true, val notifica
         bot.execute(sendMessage)
     }
 
-    override fun toUI() = arrayOf(text("reply"), field())
+    override fun toUI() = arrayOf(text("reply"), field(text, this::text))
+
+    override fun fromUI(graphics: Array<out EventComponent.EventComponentGraphics>): EventComponent<Message> {
+        return Reply(graphics.getValueFromProperty(this::text), sendAsReply, notification)
+    }
 }
