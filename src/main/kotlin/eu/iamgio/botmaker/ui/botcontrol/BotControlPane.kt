@@ -43,7 +43,7 @@ class BotControlPane(val name: String, bot: BotConfiguration) : VBox() {
         children += ScrollPane(eventsVBox).withClass("edge-to-edge")
 
         bot.messageEvents.forEach {
-            eventsVBox.children += EventNode(it)
+            eventsVBox.children += EventNode(it, this)
         }
     }
 

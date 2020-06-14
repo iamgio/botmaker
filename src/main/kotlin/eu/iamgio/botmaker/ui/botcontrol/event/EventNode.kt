@@ -5,6 +5,7 @@ import eu.iamgio.botmaker.lib.Action
 import eu.iamgio.botmaker.lib.Event
 import eu.iamgio.botmaker.lib.EventComponent
 import eu.iamgio.botmaker.lib.Filter
+import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
 import eu.iamgio.botmaker.ui.withClass
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
@@ -14,7 +15,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-class EventNode<T>(event: Event<T>) : VBox() {
+class EventNode<T>(event: Event<T>, private val botControl: BotControlPane) : VBox() {
 
     private val actionsVBox = VBox().withClass("actions")
 
@@ -63,6 +64,10 @@ class EventNode<T>(event: Event<T>) : VBox() {
                     is EventComponent.EventComponentField -> TextField().also { textField ->
                         textField.text = it.content
                         it.textProperty.bind(textField.textProperty())
+
+                        textField.focusedProperty().addListener { _, _, focused ->
+                            if(!focused) botControl.autosave()
+                        }
                     }
                     else -> null
                 }
