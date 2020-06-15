@@ -75,3 +75,20 @@
 .event .text-field {
     -fx-font-size: 18;
 }
+
+.event .svg {
+    -fx-fill: white;
+}
+
+.event .svg-wrap {
+    -fx-opacity: .5;
+    -fx-cursor: hand;
+}
+
+.event .svg-wrap:hover {
+    -fx-opacity: .7;
+}
+
+.event .svg-wrap:pressed {
+    -fx-opacity: .9;
+}

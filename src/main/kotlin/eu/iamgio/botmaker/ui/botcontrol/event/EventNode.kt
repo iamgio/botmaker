@@ -5,8 +5,12 @@ import eu.iamgio.botmaker.lib.Action
 import eu.iamgio.botmaker.lib.Event
 import eu.iamgio.botmaker.lib.EventComponent
 import eu.iamgio.botmaker.lib.Filter
+import eu.iamgio.botmaker.ui.bindSize
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
+import eu.iamgio.botmaker.ui.createSvg
 import eu.iamgio.botmaker.ui.withClass
+import eu.iamgio.botmaker.ui.wrap
+import javafx.beans.binding.Bindings
 import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.layout.FlowPane
@@ -21,6 +25,7 @@ class EventNode<T>(event: Event<T>, eventNameKey: String, private val botControl
 
     init {
         styleClass += "event"
+        bindSize(bindHeight = false)
 
         children += Label(getString("event.$eventNameKey") + ":").withClass("event-title")
 
@@ -68,6 +73,19 @@ class EventNode<T>(event: Event<T>, eventNameKey: String, private val botControl
                         textField.focusedProperty().addListener { _, _, focused ->
                             if(!focused) botControl.autosave()
                         }
+                    }
+                    is EventComponent.EventComponentBooleanIcon -> createSvg().apply {
+                        contentProperty().bind(
+                                Bindings.`when`(it.selectedProperty)
+                                        .then(it.svgOn)
+                                        .otherwise(it.svgOff)
+                        )
+
+                        it.selectedProperty.set(it.initialState)
+                        it.selectedProperty.addListener { _ -> botControl.autosave() }
+                    }.wrap().apply {
+                        minWidth = 30.0
+                        setOnMouseClicked { _ -> it.selectedProperty.set(it.value.not()) }
                     }
                     else -> null
                 }
