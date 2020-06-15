@@ -15,14 +15,14 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-class EventNode<T>(event: Event<T>, private val botControl: BotControlPane) : VBox() {
+class EventNode<T>(event: Event<T>, eventNameKey: String, private val botControl: BotControlPane) : VBox() {
 
     private val actionsVBox = VBox().withClass("actions")
 
     init {
         styleClass += "event"
 
-        children += Label(getString("event.name." + event.javaClass.simpleName) + ":").withClass("event-title")
+        children += Label(getString("event.$eventNameKey") + ":").withClass("event-title")
 
         children += actionsVBox
 
