@@ -58,6 +58,7 @@ class EventNode<T>(event: Event<T>, eventNameKey: String, private val botControl
     inner class EventFlowPane<T>(val eventComponent: EventComponent<T>) : FlowPane() {
 
         private val graphics: Array<out EventComponent.EventComponentGraphics>
+        private val hintLabel = Label().withClass("hint")
 
         init {
             hgap = 10.0
@@ -86,10 +87,18 @@ class EventNode<T>(event: Event<T>, eventNameKey: String, private val botControl
                     }.wrap().apply {
                         minWidth = 30.0
                         setOnMouseClicked { _ -> it.selectedProperty.set(it.value.not()) }
+
+                        setOnMouseEntered { _ ->
+                            hintLabel.text = getString("event.action.${eventComponent.javaClass.simpleName}.${it.property.name}.hint")
+                        }
+                        setOnMouseExited {
+                            hintLabel.text = ""
+                        }
                     }
                     else -> null
                 }
             }
+            children += hintLabel
         }
 
         fun toEventComponent(): EventComponent<T> {

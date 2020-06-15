@@ -92,3 +92,9 @@
 .event .svg-wrap:pressed {
     -fx-opacity: .9;
 }
+
+.event .hint {
+    -fx-font-size: 16;
+    -fx-opacity: .5;
+    -fx-padding: 0 0 0 10;
+}
