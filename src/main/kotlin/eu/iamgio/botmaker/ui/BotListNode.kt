@@ -1,5 +1,6 @@
 package eu.iamgio.botmaker.ui
 
+import eu.iamgio.botmaker.Settings
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
@@ -17,7 +18,9 @@ class BotListNode : BrowsableVBox(true) {
         styleClass += "bot-list"
     }
 
-    inner class ListedBotNode(val name: String, val bot: BotConfiguration) : Label(name), Actionable {
+    inner class ListedBotNode(val name: String,
+                              private val bot: BotConfiguration,
+                              private val settings: Settings) : Label(name), Actionable {
 
         init {
             styleClass += "bot-name"
@@ -35,7 +38,7 @@ class BotListNode : BrowsableVBox(true) {
         }
 
         fun open() {
-            if(root.rightControl.currentBotControl?.name != name) BotControlPane(name, bot).show()
+            if(root.rightControl.currentBotControl?.name != name) BotControlPane(name, bot, settings).show()
         }
 
         fun delete() {

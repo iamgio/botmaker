@@ -63,7 +63,7 @@
     -fx-padding: 0 0 10 0;
 }
 
-.event .actions {
+.event .actions, .event .filters {
     -fx-spacing: 10;
     -fx-padding: 0 0 0 20;
 }

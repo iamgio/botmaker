@@ -3,106 +3,47 @@ package eu.iamgio.botmaker.ui.botcontrol.event
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.Action
 import eu.iamgio.botmaker.lib.Event
-import eu.iamgio.botmaker.lib.EventComponent
 import eu.iamgio.botmaker.lib.Filter
 import eu.iamgio.botmaker.ui.bindSize
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
-import eu.iamgio.botmaker.ui.createSvg
 import eu.iamgio.botmaker.ui.withClass
-import eu.iamgio.botmaker.ui.wrap
-import javafx.beans.binding.Bindings
+import io.github.ageofwar.telejam.messages.Message
 import javafx.scene.control.Label
-import javafx.scene.control.TextField
-import javafx.scene.layout.FlowPane
 import javafx.scene.layout.VBox
 
 /**
  * @author Giorgio Garofalo
  */
-class EventNode<T>(event: Event<T>, eventNameKey: String, private val botControl: BotControlPane) : VBox() {
+abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotControlPane) : VBox() {
 
-    private val actionsVBox = VBox().withClass("actions")
+    private val filtersNode = VBox().withClass("filters")
+    private val actionsNode = VBox().withClass("actions")
 
     init {
         styleClass += "event"
         bindSize(bindHeight = false)
 
-        children += Label(getString("event.$eventNameKey") + ":").withClass("event-title")
-
-        children += actionsVBox
-
-        actionsVBox.children += Label("+ ${getString("new.action")}").withClass("new").apply {
+        children += Label(getString("event.${javaClass.simpleName}") + ":").withClass("event-title")
+        children += filtersNode
+        children += Label("+ ${getString("new.filter")}").withClass("new").apply { //TODO move
             setOnMouseClicked {
-                println("New action")
-                // TODO new action
+                println("New filter")
+                // TODO new filter
             }
         }
+        children += actionsNode
 
-        addAction(event.filter)
+        addFilter(event.filter)
         addAction(event.action)
     }
 
-    fun toEvent(): Event<T> {
-        val eventFlowPanes = actionsVBox.children.filterIsInstance<EventFlowPane<T>>()
-        // TODO support multiple filters/actions
-        return Event(
-                eventFlowPanes.first { it.eventComponent is Filter }.toEventComponent() as Filter<T>,
-                eventFlowPanes.first { it.eventComponent is Action }.toEventComponent() as Action<T>
-        )
+    private fun addFilter(filter: Filter<T>) {
+        filtersNode.children.add(filter.toNode(botControlPane))
     }
 
-    private fun addAction(eventComponent: EventComponent<T>) {
-        actionsVBox.children.add(actionsVBox.children.size - 1, EventFlowPane(eventComponent))
-    }
-
-    inner class EventFlowPane<T>(val eventComponent: EventComponent<T>) : FlowPane() {
-
-        private val graphics: Array<out EventComponent.EventComponentGraphics>
-        private val hintLabel = Label().withClass("hint")
-
-        init {
-            hgap = 10.0
-            graphics = eventComponent.toUI()
-
-            graphics.forEach {
-                children += when(it) {
-                    is EventComponent.EventComponentText -> Label(getString(it.textKey)).withClass("event-action")
-                    is EventComponent.EventComponentField -> TextField().also { textField ->
-                        textField.text = it.content
-                        it.textProperty.bind(textField.textProperty())
-
-                        textField.focusedProperty().addListener { _, _, focused ->
-                            if(!focused) botControl.autosave()
-                        }
-                    }
-                    is EventComponent.EventComponentBooleanIcon -> createSvg().apply {
-                        contentProperty().bind(
-                                Bindings.`when`(it.selectedProperty)
-                                        .then(it.svgOn)
-                                        .otherwise(it.svgOff)
-                        )
-
-                        it.selectedProperty.set(it.initialState)
-                        it.selectedProperty.addListener { _ -> botControl.autosave() }
-                    }.wrap().apply {
-                        minWidth = 30.0
-                        setOnMouseClicked { _ -> it.selectedProperty.set(it.value.not()) }
-
-                        setOnMouseEntered { _ ->
-                            hintLabel.text = getString("event.action.${eventComponent.javaClass.simpleName}.${it.property.name}.hint")
-                        }
-                        setOnMouseExited {
-                            hintLabel.text = ""
-                        }
-                    }
-                    else -> null
-                }
-            }
-            children += hintLabel
-        }
-
-        fun toEventComponent(): EventComponent<T> {
-            return eventComponent.fromUI(graphics)
-        }
+    private fun addAction(action: Action<T>) {
+        actionsNode.children.add(action.toNode(botControlPane))
     }
 }
+
+class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : EventNode<Message>(event, botControlPane)

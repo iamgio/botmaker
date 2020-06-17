@@ -23,12 +23,12 @@ lateinit var root: BotMakerRoot
 class BotMaker : Application() {
 
     override fun start(primaryStage: Stage) {
-        val (locale) = loadSettingsOrDefault()
+        val settings = loadSettingsOrDefault()
         val bots = loadBotConfigurations()
 
-        root = BotMakerRoot(bots)
+        root = BotMakerRoot(bots, settings)
 
-        ResourceBundle.load(locale)
+        ResourceBundle.load(settings.locale)
 
         loadFont("Karla-Regular.ttf")
         loadFont("Karla-Bold.ttf")

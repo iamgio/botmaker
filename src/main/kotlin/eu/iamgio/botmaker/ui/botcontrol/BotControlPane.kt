@@ -1,13 +1,13 @@
 package eu.iamgio.botmaker.ui.botcontrol
 
 import animatefx.animation.FadeInUp
+import eu.iamgio.botmaker.Settings
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.save
-import eu.iamgio.botmaker.ui.botcontrol.event.EventNode
+import eu.iamgio.botmaker.ui.botcontrol.event.MessageEventNode
 import eu.iamgio.botmaker.ui.withClass
-import io.github.ageofwar.telejam.messages.Message
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.control.ScrollPane
@@ -18,7 +18,10 @@ import javafx.scene.layout.VBox
  * Pane which covers the whole second part of the main SplitPane. Contains all the controls needed to make/edit a bot.
  * @author Giorgio Garofalo
  */
-class BotControlPane(val name: String, bot: BotConfiguration) : VBox() {
+class BotControlPane(
+        val name: String,
+        private val bot: BotConfiguration,
+        private val settings: Settings) : VBox() {
 
     var botToken = bot.botToken
     private val eventsVBox = VBox()
@@ -43,7 +46,7 @@ class BotControlPane(val name: String, bot: BotConfiguration) : VBox() {
         children += ScrollPane(eventsVBox).withClass("edge-to-edge")
 
         bot.messageEvents.forEach {
-            eventsVBox.children += EventNode(it, "onmessage", this)
+            eventsVBox.children += MessageEventNode(it, this)
         }
     }
 
@@ -52,18 +55,9 @@ class BotControlPane(val name: String, bot: BotConfiguration) : VBox() {
         root.rightControl.showBotControl(this)
     }
 
-    fun toBotConfiguration(): BotConfiguration {
-        return BotConfiguration(
-                botToken,
-                eventsVBox.children
-                        .filterIsInstance<EventNode<Message>>()
-                        .map { it.toEvent() }
-        )
-    }
-
-    fun save() = toBotConfiguration().save(name)
+    fun save() = bot.save(name)
 
     fun autosave() {
-        if(true /* TODO get autosave boolean from settings */) save()
+        if(settings.autoSave) save()
     }
 }
