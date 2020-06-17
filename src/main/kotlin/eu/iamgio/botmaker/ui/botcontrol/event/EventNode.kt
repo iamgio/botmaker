@@ -25,24 +25,32 @@ abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotCont
 
         children += Label(getString("event.${javaClass.simpleName}") + ":").withClass("event-title")
         children += filtersNode
-        children += Label("+ ${getString("new.filter")}").withClass("new").apply { //TODO move
+        children += actionsNode
+
+        filtersNode.children += Label("+ ${getString("new.filter")}").withClass("new").apply { //TODO move
             setOnMouseClicked {
                 println("New filter")
                 // TODO new filter
             }
         }
-        children += actionsNode
+
+        actionsNode.children += Label("+ ${getString("new.action")}").withClass("new").apply { //TODO move
+            setOnMouseClicked {
+                println("New action")
+                // TODO new filter
+            }
+        }
 
         addFilter(event.filter)
         addAction(event.action)
     }
 
     private fun addFilter(filter: Filter<T>) {
-        filtersNode.children.add(filter.toNode(botControlPane))
+        filtersNode.children.add(filtersNode.children.size - 1, filter.toNode(botControlPane))
     }
 
     private fun addAction(action: Action<T>) {
-        actionsNode.children.add(action.toNode(botControlPane))
+        actionsNode.children.add(actionsNode.children.size - 1, action.toNode(botControlPane))
     }
 }
 
