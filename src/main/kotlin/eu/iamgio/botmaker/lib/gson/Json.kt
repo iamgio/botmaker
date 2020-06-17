@@ -7,6 +7,7 @@ import java.util.*
 internal val gson = GsonBuilder()
         .registerTypeAdapter(Locale::class.java, LocaleTypeAdapter)
         .registerTypeAdapterFactory(RuntimeTypeAdapterFactory.of(Filter::class.java, "type")
+                .registerSubtype(Filters::class.java, "filters")
                 .registerSubtype(IfMessageStartsWith::class.java, "start"))
         .registerTypeAdapterFactory(RuntimeTypeAdapterFactory.of(Action::class.java, "type")
                 .registerSubtype(Actions::class.java, "actions")
