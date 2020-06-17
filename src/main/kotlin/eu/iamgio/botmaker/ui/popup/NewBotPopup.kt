@@ -39,6 +39,7 @@ class NewBotPopup : ScenePopup(getString("popup.newbot.title")) {
 
         val bot = BotConfiguration(token, mutableListOf())
         bot.save(name)
-        root.leftControl.addBot(name, bot)
+        val listedBot = root.leftControl.addBot(name, bot)
+        listedBot.open()
     }
 }
