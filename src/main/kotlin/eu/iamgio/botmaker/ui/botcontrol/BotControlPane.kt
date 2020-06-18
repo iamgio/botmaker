@@ -5,8 +5,6 @@ import eu.iamgio.botmaker.Settings
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.lib.Event
-import eu.iamgio.botmaker.lib.MessageActions
-import eu.iamgio.botmaker.lib.MessageFilters
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.save
 import eu.iamgio.botmaker.ui.botcontrol.event.MessageEventNode
@@ -43,7 +41,7 @@ class BotControlPane(
         children += Label("+ ${getString("new.event")}").withClass("new").apply {
             setOnMouseClicked {
                 println("New event")
-                val newEvent = Event(MessageFilters(), MessageActions()) //TODO choice
+                val newEvent = Event<Message>() //TODO choice
                 bot.messageEvents += newEvent
                 eventsVBox.children += MessageEventNode(newEvent, this@BotControlPane)
             }

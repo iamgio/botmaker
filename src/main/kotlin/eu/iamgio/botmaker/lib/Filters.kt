@@ -8,16 +8,10 @@ import eu.iamgio.botmaker.ui.botcontrol.event.text
 import io.github.ageofwar.telejam.messages.Message
 import javafx.scene.layout.Pane
 
-interface Filters<T> : Filter<T> {
-    val filters: MutableList<Filter<T>>
-
+data class Filters<T>(val filters: MutableList<Filter<T>> = mutableListOf()) : Filter<T> {
     override fun filter(event: T) = filters.all { it.filter(event) }
 
     override fun toNode(botControl: BotControlPane) = Pane()
-}
-
-data class MessageFilters(override val filters: MutableList<Filter<Message>> = mutableListOf()) : Filters<Message> {
-
 }
 
 data class IfMessageStartsWith(var text: String) : Filter<Message> {

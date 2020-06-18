@@ -14,16 +14,10 @@ import io.github.ageofwar.telejam.messages.Message
 import io.github.ageofwar.telejam.methods.SendMessage
 import javafx.scene.layout.Pane
 
-interface Actions<T> : Action<T> {
-    val actions: MutableList<Action<T>>
-
+data class Actions<T>(val actions: MutableList<Action<T>> = mutableListOf()) : Action<T> {
     override fun run(bot: Bot, event: T) = actions.forEach { it.run(bot, event) }
 
     override fun toNode(botControl: BotControlPane) = Pane()
-}
-
-data class MessageActions(override val actions: MutableList<Action<Message>> = mutableListOf()) : Actions<Message> {
-
 }
 
 data class Reply(var text: String, var sendAsReply: Boolean = true, var notification: Boolean = true) : Action<Message> {
