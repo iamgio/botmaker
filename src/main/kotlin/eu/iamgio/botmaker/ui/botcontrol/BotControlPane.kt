@@ -4,10 +4,14 @@ import animatefx.animation.FadeInUp
 import eu.iamgio.botmaker.Settings
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
+import eu.iamgio.botmaker.lib.Event
+import eu.iamgio.botmaker.lib.MessageActions
+import eu.iamgio.botmaker.lib.MessageFilters
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.save
 import eu.iamgio.botmaker.ui.botcontrol.event.MessageEventNode
 import eu.iamgio.botmaker.ui.withClass
+import io.github.ageofwar.telejam.messages.Message
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.control.ScrollPane
@@ -39,7 +43,9 @@ class BotControlPane(
         children += Label("+ ${getString("new.event")}").withClass("new").apply {
             setOnMouseClicked {
                 println("New event")
-                // TODO new event
+                val newEvent = Event(MessageFilters(), MessageActions()) //TODO choice
+                bot.messageEvents += newEvent
+                eventsVBox.children += MessageEventNode(newEvent, this@BotControlPane)
             }
         }
 
