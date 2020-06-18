@@ -12,10 +12,10 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotControlPane) : VBox() {
+open class EventNode<T>(event: Event<T>, private val botControlPane: BotControlPane) : VBox() {
 
-    val filtersNode = VBox().withClass("filters")
-    val actionsNode = VBox().withClass("actions")
+    private val filtersNode = VBox().withClass("filters")
+    private val actionsNode = VBox().withClass("actions")
 
     init {
         styleClass += "event"
@@ -24,6 +24,24 @@ abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotCont
         children += Label(getString("event.${javaClass.simpleName}") + ":").withClass("event-title")
         children += filtersNode
         children += actionsNode
+
+        filtersNode.children += Label("+ ${getString("new.filter")}").withClass("new").apply {
+            setOnMouseClicked {
+                println("New filter")
+                val newFilter = IfMessageStartsWith("") as Filter<T> //TODO choice
+                event.filters.filters += newFilter
+                addFilter(newFilter)
+            }
+        }
+
+        actionsNode.children += Label("+ ${getString("new.action")}").withClass("new").apply { //TODO move
+            setOnMouseClicked {
+                println("New action")
+                val newAction = Reply("") as Action<T> //TODO choice
+                event.actions.actions += newAction
+                addAction(newAction)
+            }
+        }
 
         event.filters.filters.forEach {
             addFilter(it)
@@ -34,33 +52,13 @@ abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotCont
         }
     }
 
-    fun addFilter(filter: Filter<T>) {
-        filtersNode.children.add(filter.toNode(botControlPane))
+    private fun addFilter(filter: Filter<T>) {
+        filtersNode.children.add(filtersNode.children.size - 1, filter.toNode(botControlPane))
     }
 
-    fun addAction(action: Action<T>) {
-        actionsNode.children.add(action.toNode(botControlPane))
-    }
-}
-
-class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : EventNode<Message>(event, botControlPane) {
-    init {
-        filtersNode.children += Label("+ ${getString("new.filter")}").withClass("new").apply {
-            setOnMouseClicked {
-                println("New filter")
-                val newFilter = IfMessageStartsWith("") //TODO choice
-                event.filters.filters += newFilter
-                addFilter(newFilter)
-            }
-        }
-
-        actionsNode.children += Label("+ ${getString("new.action")}").withClass("new").apply { //TODO move
-            setOnMouseClicked {
-                println("New action")
-                val newAction = Reply("") //TODO choice
-                event.actions.actions += newAction
-                addAction(newAction)
-            }
-        }
+    private fun addAction(action: Action<T>) {
+        actionsNode.children.add(actionsNode.children.size - 1, action.toNode(botControlPane))
     }
 }
+
+class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : EventNode<Message>(event, botControlPane)
