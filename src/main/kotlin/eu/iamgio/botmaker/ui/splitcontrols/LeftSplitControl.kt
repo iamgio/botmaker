@@ -35,9 +35,11 @@ class LeftSplitControl(private val bots: MutableMap<String, BotConfiguration>, p
         children += botList
     }
 
-    fun addBot(name: String, bot: BotConfiguration) {
+    fun addBot(name: String, bot: BotConfiguration): BotListNode.ListedBotNode {
         bots[name] = bot
-        botList.children += botList.ListedBotNode(name, bot, settings)
+        return botList.ListedBotNode(name, bot, settings).also {
+            botList.children += it
+        }
     }
 
     fun removeBot(name: String) {
