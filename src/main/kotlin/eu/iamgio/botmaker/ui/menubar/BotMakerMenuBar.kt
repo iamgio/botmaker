@@ -14,7 +14,7 @@ class BotMakerMenuBar : MenuBar() {
 
     fun menu(menuNameKey: String, items: BotMakerMenu.() -> Unit) = BotMakerMenu(menuNameKey).items()
 
-    inner class BotMakerMenu(private val menuNameKey: String) : Menu(getString("menubar.$menuNameKey")) {
+    inner class BotMakerMenu(private val menuNameKey: String) : Menu(getString("menubar.$menuNameKey.text")) {
 
         init {
             this@BotMakerMenuBar.menus += this

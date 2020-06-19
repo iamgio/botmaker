@@ -1,0 +1,49 @@
+{
+  "title": "BotMaker",
+  "menubar": {
+    "file": {
+      "text": "File",
+      "new": "New"
+    }
+  },
+  "botcontext": {
+    "open": "Open",
+    "delete": "Delete"
+  },
+  "popup": {
+    "newbot": {
+      "title": "New bot",
+      "name": "Bot name",
+      "token": "Token (optional)",
+      "create": "Create"
+    },
+    "delete": {
+      "title": "Delete $1",
+      "warning": "Are you sure you want to delete this bot?\nYou won't be able to recover it.",
+      "delete": "Delete"
+    }
+  },
+  "token": "Token",
+  "new": {
+    "event": "New event",
+    "action": "New action",
+    "filter": "New filter"
+  },
+  "event": {
+    "MessageEventNode": {
+      "text": "When a message is received"
+    },
+    "filter": {
+      "IfMessageStartsWith": {
+        "text": "If it starts with"
+      }
+    },
+    "action": {
+      "Reply": {
+        "text": "Reply with",
+        "sendAsReply": "Send the message as a reply",
+        "notification": "Send notification"
+      }
+    }
+  }
+}

@@ -20,7 +20,7 @@ data class IfMessageStartsWith(var text: String) : Filter<Message> {
     }
 
     override fun toNode(botControl: BotControlPane) = buildEventLine(botControl,
-            text("filter.IfMessageStartsWith.ifstarts"),
+            text("filter.IfMessageStartsWith.text"),
             field(text) {text = it}
     )
 }

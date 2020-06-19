@@ -34,7 +34,7 @@ data class Reply(var text: String, var sendAsReply: Boolean = true, var notifica
     }
 
     override fun toNode(botControl: BotControlPane) = buildEventLine(botControl,
-            text("action.Reply.reply"),
+            text("action.Reply.text"),
             field(text) {text = it},
             icon(SVG_REPLY_EMPTY, SVG_REPLY, "action.Reply.sendAsReply", sendAsReply) {sendAsReply = it},
             icon(SVG_BELL_OFF, SVG_BELL_RING, "action.Reply.notification", notification) {notification = it}

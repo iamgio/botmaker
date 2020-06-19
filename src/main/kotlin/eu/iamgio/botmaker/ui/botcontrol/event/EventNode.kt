@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-open class EventNode<T>(event: Event<T>, private val botControlPane: BotControlPane) : VBox() {
+abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotControlPane) : VBox() {
 
     private val filtersNode = VBox().withClass("filters")
     private val actionsNode = VBox().withClass("actions")
@@ -21,7 +21,7 @@ open class EventNode<T>(event: Event<T>, private val botControlPane: BotControlP
         styleClass += "event"
         bindSize(bindHeight = false)
 
-        children += Label(getString("event.${javaClass.simpleName}") + ":").withClass("event-title")
+        children += Label(getString("event.${javaClass.simpleName}.text") + ":").withClass("event-title")
         children += filtersNode
         children += actionsNode
 
@@ -34,7 +34,7 @@ open class EventNode<T>(event: Event<T>, private val botControlPane: BotControlP
             }
         }
 
-        actionsNode.children += Label("+ ${getString("new.action")}").withClass("new").apply { //TODO move
+        actionsNode.children += Label("+ ${getString("new.action")}").withClass("new").apply {
             setOnMouseClicked {
                 println("New action")
                 val newAction = Reply("") as Action<T> //TODO choice
@@ -52,6 +52,9 @@ open class EventNode<T>(event: Event<T>, private val botControlPane: BotControlP
         }
     }
 
+    abstract fun getAvailableFilters(): List<Filter<T>>
+    abstract fun getAvailableActions(): List<Action<T>>
+
     private fun addFilter(filter: Filter<T>) {
         filtersNode.children.add(filtersNode.children.size - 1, filter.toNode(botControlPane))
     }
@@ -61,4 +64,7 @@ open class EventNode<T>(event: Event<T>, private val botControlPane: BotControlP
     }
 }
 
-class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : EventNode<Message>(event, botControlPane)
+class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : EventNode<Message>(event, botControlPane) {
+    override fun getAvailableFilters() = listOf(IfMessageStartsWith(""))
+    override fun getAvailableActions() = listOf(Reply(""))
+}
