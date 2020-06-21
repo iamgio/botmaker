@@ -6,6 +6,7 @@ import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.withClass
 import javafx.application.Platform
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.control.Label
@@ -18,6 +19,7 @@ import javafx.scene.layout.VBox
 open class ScenePopup(title: String) : VBox() {
 
     protected var nodeToFocus: Node? = null
+    protected val shownProperty = SimpleBooleanProperty()
 
     init {
         styleClass += "scene-popup"
@@ -40,12 +42,14 @@ open class ScenePopup(title: String) : VBox() {
     }
 
     fun show() {
+        shownProperty.set(true)
         ZoomIn(this).setSpeed(4.0).play()
         root.children += this
         repeat(2) { nodeToFocus?.requestFocus() }
     }
 
     fun hide() {
+        shownProperty.set(false)
         ZoomOut(this).setSpeed(4.0).let {
             it.setOnFinished {
                 root.children -= this

@@ -4,6 +4,8 @@ import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.*
 import eu.iamgio.botmaker.ui.bindSize
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
+import eu.iamgio.botmaker.ui.center
+import eu.iamgio.botmaker.ui.popup.EventChoicePopup
 import eu.iamgio.botmaker.ui.withClass
 import io.github.ageofwar.telejam.messages.Message
 import javafx.scene.control.Label
@@ -28,18 +30,24 @@ abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotCont
         filtersNode.children += Label("+ ${getString("new.filter")}").withClass("new").apply {
             setOnMouseClicked {
                 println("New filter")
-                val newFilter = IfMessageStartsWith("") as Filter<T> //TODO choice
+                val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.FILTER, getAvailableFilters())
+                eventChoicePopup.center()
+                eventChoicePopup.show()
+                /*val newFilter = IfMessageStartsWith("") as Filter<T>
                 event.filters.filters += newFilter
-                addFilter(newFilter)
+                addFilter(newFilter)*/
             }
         }
 
         actionsNode.children += Label("+ ${getString("new.action")}").withClass("new").apply {
             setOnMouseClicked {
                 println("New action")
-                val newAction = Reply("") as Action<T> //TODO choice
+                val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.ACTION, getAvailableActions())
+                eventChoicePopup.center()
+                eventChoicePopup.show()
+                /*val newAction = Reply("") as Action<T>
                 event.actions.actions += newAction
-                addAction(newAction)
+                addAction(newAction)*/
             }
         }
 

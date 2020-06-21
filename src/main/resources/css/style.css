@@ -178,3 +178,11 @@
 .scene-popup .confirm:pressed {
     -fx-background-color: rgba(255, 255, 255, .2);
 }
+
+.event-choice-list .label {
+    -fx-font-size: 16;
+}
+
+.event-choice-list .label:selected {
+    -fx-background-color: rgba(255, 255, 255, .1);
+}
