@@ -194,3 +194,17 @@
 .event-choice-list .label:selected {
     -fx-background-color: rgba(255, 255, 255, .1);
 }
+
+.description-box {
+    -fx-padding: 0 20 0 30;
+    -fx-spacing: 15;
+}
+
+.description-box .description-title {
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
+}
+
+.description-box .description-text {
+    -fx-font-size: 16;
+}

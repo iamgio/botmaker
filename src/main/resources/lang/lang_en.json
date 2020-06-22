@@ -29,6 +29,10 @@
         "filter": "filter",
         "action": "action"
       },
+      "no-content": {
+        "text": "Nothing selected",
+        "description": "Try selecting something from the list"
+      },
       "confirm": "Confirm"
     }
   },
@@ -44,14 +48,16 @@
     },
     "filter": {
       "IfMessageStartsWith": {
-        "text": "If it starts with"
+        "text": "If it starts with",
+        "description": "Checks if the message text starts with a certain string."
       }
     },
     "action": {
       "Reply": {
         "text": "Reply with",
         "sendAsReply": "Send the message as a reply",
-        "notification": "Send notification"
+        "notification": "Send notification",
+        "description": "Sends a message to the user.\nThe message can be sent as a reply and notifications can be disabled."
       }
     }
   }

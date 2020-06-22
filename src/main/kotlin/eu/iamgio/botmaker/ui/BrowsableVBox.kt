@@ -2,6 +2,7 @@ package eu.iamgio.botmaker.ui
 
 import eu.iamgio.botmaker.root
 import javafx.application.Platform
+import javafx.beans.property.SimpleIntegerProperty
 import javafx.css.PseudoClass
 import javafx.scene.Node
 import javafx.scene.control.ScrollPane
@@ -16,7 +17,12 @@ import javafx.scene.layout.VBox
  */
 open class BrowsableVBox(listenForRootClicks: Boolean, scrollPane: ScrollPane? = null) : VBox() {
 
-    private var index = -1
+    val indexProperty = SimpleIntegerProperty(-1)
+    private var index: Int
+        get() = indexProperty.value
+        set(value) {
+            indexProperty.set(value)
+        }
 
     private val isValidIndex
         get() = index >= 0 && index < children.size
