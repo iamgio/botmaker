@@ -4,14 +4,16 @@ import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.Actionable
 import eu.iamgio.botmaker.ui.BrowsableVBox
+import eu.iamgio.botmaker.ui.withClass
 import javafx.scene.control.Label
+import javafx.scene.control.ScrollPane
 import javafx.scene.input.KeyCode
 import javafx.scene.layout.HBox
 
 /**
  * @author Giorgio Garofalo
  */
-class EventChoicePopup(type: ChoiceType, items: List<*>) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
+class EventChoicePopup<T>(type: ChoiceType, items: List<T>) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
 
     enum class ChoiceType {
         EVENT, FILTER, ACTION
@@ -20,7 +22,14 @@ class EventChoicePopup(type: ChoiceType, items: List<*>) : ScenePopup(getString(
     init {
         children += HBox().apply {
             styleClass += "event-choice"
-            children += EventChoiceBrowsableList(items).also { nodeToFocus = it }
+            children += ScrollPane().withClass("edge-to-edge").apply {
+                content = EventChoiceBrowsableList(items, this).also {
+                    it.applyCss()
+                    it.layout()
+                    nodeToFocus = it
+                    maxHeight = 400.0
+                }
+            }
         }
 
         addConfirmButton("popup.event-choice.confirm")
@@ -34,14 +43,18 @@ class EventChoicePopup(type: ChoiceType, items: List<*>) : ScenePopup(getString(
     }
 }
 
-class EventChoiceBrowsableList(items: List<*>) : BrowsableVBox(true) {
+class EventChoiceBrowsableList<T>(items: List<T>, scrollPane: ScrollPane) : BrowsableVBox(true, scrollPane) {
 
     init {
         styleClass += "event-choice-list"
-        children.addAll(items.map { EventChoiceLabel(it.toString()) })
+        children.addAll(items.map { EventChoiceLabel(it) })
     }
 
-    class EventChoiceLabel(text: String) : Label(text), Actionable {
+    inner class EventChoiceLabel(item: T) : Label(item.toString()), Actionable {
+
+        init {
+            prefHeight = 50.0
+        }
 
         override fun onAction(keyCode: KeyCode) {
             if(keyCode == KeyCode.ENTER) {

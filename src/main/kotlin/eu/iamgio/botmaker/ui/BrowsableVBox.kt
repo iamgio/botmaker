@@ -4,15 +4,17 @@ import eu.iamgio.botmaker.root
 import javafx.application.Platform
 import javafx.css.PseudoClass
 import javafx.scene.Node
+import javafx.scene.control.ScrollPane
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.Region
 import javafx.scene.layout.VBox
 
 /**
  * VBox which can be browsed through arrow keys
  * @author Giorgio Garofalo
  */
-open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
+open class BrowsableVBox(listenForRootClicks: Boolean, scrollPane: ScrollPane? = null) : VBox() {
 
     private var index = -1
 
@@ -62,7 +64,16 @@ open class BrowsableVBox(listenForRootClicks: Boolean) : VBox() {
                 }
             }
             unselect(false)
-            if(isValidIndex) children[index].updateSelectedPseudoClass(true)
+            if(isValidIndex) {
+                val selected = children[index]
+                selected.updateSelectedPseudoClass(true)
+                if(selected is Region && scrollPane != null) {
+                    Platform.runLater {
+                        scrollPane.vvalue = (index * selected.prefHeight * 2) / children.size / 50.0
+                        // Taking for granted that every child has the same height
+                    }
+                }
+            }
         }
         setOnMouseClicked { requestFocus() }
 

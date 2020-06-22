@@ -183,6 +183,14 @@
     -fx-font-size: 16;
 }
 
+.event-choice-list {
+    -fx-background-color: rgba(255, 255, 255, .1);
+}
+
+.event-choice-list .label {
+    -fx-padding: 0 40 0 20;
+}
+
 .event-choice-list .label:selected {
     -fx-background-color: rgba(255, 255, 255, .1);
 }
