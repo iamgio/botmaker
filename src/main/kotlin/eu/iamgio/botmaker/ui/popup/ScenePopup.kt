@@ -60,9 +60,15 @@ open class ScenePopup(title: String) : VBox() {
 
     open fun onConfirm() {}
 
-    fun addConfirmButton(textKey: String) {
+    fun addConfirmButton(textKey: String, hasPriority: Boolean = false) {
         children += VBox(
-                Label(getString(textKey)).withClass("confirm").apply { setOnMouseClicked { onConfirm() } }
+                Label(getString(textKey)).withClass("confirm").apply {
+                    if(hasPriority) {
+                        setOnMousePressed { onConfirm() }
+                    } else {
+                        setOnMouseClicked { onConfirm() }
+                    }
+                }
         ).apply { alignment = Pos.CENTER }
     }
 

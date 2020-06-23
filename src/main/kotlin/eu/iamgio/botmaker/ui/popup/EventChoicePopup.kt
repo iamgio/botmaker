@@ -6,6 +6,7 @@ import eu.iamgio.botmaker.lib.Filter
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.Actionable
 import eu.iamgio.botmaker.ui.BrowsableVBox
+import eu.iamgio.botmaker.ui.botcontrol.event.EventNode
 import eu.iamgio.botmaker.ui.withClass
 import javafx.scene.control.Label
 import javafx.scene.control.ScrollPane
@@ -16,43 +17,48 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-class EventChoicePopup<T>(type: ChoiceType, items: List<T>) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
+class EventChoicePopup<T>(type: ChoiceType, items: List<T>, val eventNode: EventNode<*>) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
 
     enum class ChoiceType {
         EVENT, FILTER, ACTION
     }
+
+    private val browsableList: EventChoiceBrowsableList<T>
 
     init {
         children += HBox().apply {
             styleClass += "event-choice"
             val descriptionBox = EventChoiceDescriptionBox()
             children += ScrollPane().withClass("edge-to-edge").apply {
-                content = EventChoiceBrowsableList(items, this, descriptionBox).also {
+                browsableList = EventChoiceBrowsableList(items, this, this@EventChoicePopup, descriptionBox).also {
                     it.applyCss()
                     it.layout()
                     nodeToFocus = it
                     maxHeight = 400.0
                 }
+                content = browsableList
             }
             children += descriptionBox
         }
 
-        addConfirmButton("popup.event-choice.confirm")
+        addConfirmButton("popup.event-choice.confirm", hasPriority = true)
 
         root.rightControl.disableProperty().bind(shownProperty)
     }
 
     override fun onConfirm() {
-        println("abc")
-        hide()
+        if(browsableList.indexProperty.value >= 0) {
+            val selected = browsableList.children[browsableList.indexProperty.value]
+            (selected as? EventChoiceBrowsableList<*>.EventChoiceLabel)?.onAction(KeyCode.ENTER)
+        }
     }
 }
 
-class EventChoiceBrowsableList<T>(items: List<T>, scrollPane: ScrollPane, descriptionBox: EventChoiceDescriptionBox) : BrowsableVBox(true, scrollPane) {
+class EventChoiceBrowsableList<T>(items: List<T>, scrollPane: ScrollPane, popup: EventChoicePopup<*>, descriptionBox: EventChoiceDescriptionBox) : BrowsableVBox(true, scrollPane) {
 
     init {
         styleClass += "event-choice-list"
-        children.addAll(items.map { EventChoiceLabel(it) })
+        children.addAll(items.map { EventChoiceLabel(it, popup) })
 
         indexProperty.addListener { _, _, index ->
             if(index is Int && index >= 0) {
@@ -66,7 +72,7 @@ class EventChoiceBrowsableList<T>(items: List<T>, scrollPane: ScrollPane, descri
         }
     }
 
-    inner class EventChoiceLabel(val item: T) : Label(), Actionable {
+    inner class EventChoiceLabel(val item: T, private val popup: EventChoicePopup<*>) : Label(), Actionable {
 
         init {
             prefHeight = 50.0
@@ -75,12 +81,22 @@ class EventChoiceBrowsableList<T>(items: List<T>, scrollPane: ScrollPane, descri
                 is Action<*> -> "event.action.${item.javaClass.simpleName}.text"
                 else -> item.toString()
             }) + "..."
+
+            setOnMouseClicked {
+                if(it.clickCount == 2) onAction(KeyCode.ENTER)
+            }
         }
 
         override fun onAction(keyCode: KeyCode) {
+            println(keyCode)
             if(keyCode == KeyCode.ENTER) {
+                popup.hide()
                 println("Confirmed $text")
-                // TODO add to bot control
+                when(item) {
+                    is Filter<*> -> popup.eventNode.addFilter(item)
+                    is Action<*> -> popup.eventNode.addAction(item)
+                }
+                popup.eventNode.botControlPane.autosave()
             }
         }
     }

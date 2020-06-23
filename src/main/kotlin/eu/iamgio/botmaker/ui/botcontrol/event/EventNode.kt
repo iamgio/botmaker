@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotControlPane) : VBox() {
+abstract class EventNode<T>(event: Event<T>, val botControlPane: BotControlPane) : VBox() {
 
     private val filtersNode = VBox().withClass("filters")
     private val actionsNode = VBox().withClass("actions")
@@ -30,24 +30,22 @@ abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotCont
         filtersNode.children += Label("+ ${getString("new.filter")}").withClass("new").apply {
             setOnMouseClicked {
                 println("New filter")
-                val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.FILTER, getAvailableFilters())
+                val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.FILTER, getAvailableFilters(), this@EventNode)
                 eventChoicePopup.center()
                 eventChoicePopup.show()
-                /*val newFilter = IfMessageStartsWith("") as Filter<T>
-                event.filters.filters += newFilter
-                addFilter(newFilter)*/
             }
         }
 
         actionsNode.children += Label("+ ${getString("new.action")}").withClass("new").apply {
             setOnMouseClicked {
                 println("New action")
-                val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.ACTION, getAvailableActions())
+                val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.ACTION, getAvailableActions(), this@EventNode)
                 eventChoicePopup.center()
                 eventChoicePopup.show()
                 /*val newAction = Reply("") as Action<T>
                 event.actions.actions += newAction
                 addAction(newAction)*/
+                //botControlPane.autosave()
             }
         }
 
@@ -63,11 +61,11 @@ abstract class EventNode<T>(event: Event<T>, private val botControlPane: BotCont
     abstract fun getAvailableFilters(): List<Filter<T>>
     abstract fun getAvailableActions(): List<Action<T>>
 
-    private fun addFilter(filter: Filter<T>) {
+    fun addFilter(filter: Filter<*>) {
         filtersNode.children.add(filtersNode.children.size - 1, filter.toNode(botControlPane))
     }
 
-    private fun addAction(action: Action<T>) {
+    fun addAction(action: Action<*>) {
         actionsNode.children.add(actionsNode.children.size - 1, action.toNode(botControlPane))
     }
 }
