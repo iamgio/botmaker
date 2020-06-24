@@ -60,5 +60,8 @@
         "description": "Sends a message to the user.\nThe message can be sent as a reply and notifications can be disabled."
       }
     }
+  },
+  "console": {
+    "title": "BotMaker - Console"
   }
 }

@@ -75,6 +75,35 @@
     -fx-background-color: derive(-fx-dark, 15%);
 }
 
+.console-control, .console-root {
+    -fx-background-color: derive(-fx-dark, -30%);
+}
+
+.console-control .nav-bar {
+    -fx-background-color: derive(-fx-dark, -5%);
+    -fx-spacing: 20;
+}
+
+.console-control .nav-bar .svg, .console-svg .svg {
+    -fx-fill: white;
+    -fx-scale-x: 1.2;
+    -fx-scale-y: 1.2;
+}
+
+.console-control .nav-bar .svg-wrap, .console-svg {
+    -fx-opacity: .7;
+    -fx-cursor: hand;
+    -fx-pref-width: 20;
+}
+
+.console-control .nav-bar .svg-wrap:hover, .console-svg:hover {
+    -fx-opacity: .9;
+}
+
+.console-svg {
+    -fx-padding: 15 0 15 0;
+}
+
 .nav-bar {
     -fx-padding: 0 0 0 20;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, .2), 15, 0, 0, 3);

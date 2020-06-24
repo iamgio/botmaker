@@ -1,0 +1,12 @@
+@import "style.css";
+
+.log {
+    -fx-font-size: 20;
+    -fx-wrap-text: true;
+    -fx-padding: 20 5 0 20;
+}
+
+.log-error {
+    -fx-text-fill: #ff4f4f;
+    -fx-font-weight: bold;
+}

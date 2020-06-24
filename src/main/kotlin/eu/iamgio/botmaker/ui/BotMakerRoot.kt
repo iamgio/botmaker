@@ -2,6 +2,7 @@ package eu.iamgio.botmaker.ui
 
 import eu.iamgio.botmaker.Settings
 import eu.iamgio.botmaker.lib.BotConfiguration
+import eu.iamgio.botmaker.ui.splitcontrols.ConsoleSplitControl
 import eu.iamgio.botmaker.ui.splitcontrols.LeftSplitControl
 import eu.iamgio.botmaker.ui.splitcontrols.RightSplitControl
 import javafx.scene.control.SplitPane
@@ -20,8 +21,27 @@ class BotMakerRoot(bots: MutableMap<String, BotConfiguration>, settings: Setting
     val leftControl = LeftSplitControl(bots, settings)
     val rightControl = RightSplitControl()
 
+    val consoleControl: ConsoleSplitControl?
+        get() = if(splitPane.items.size == 3) splitPane.items[2] as ConsoleSplitControl else null
+
     init {
         splitPane.items.addAll(leftControl, rightControl)
         children += splitPane
+    }
+
+    fun addConsole(consoleSplitControl: ConsoleSplitControl = ConsoleSplitControl()): ConsoleSplitControl {
+        return with(splitPane.items) {
+            if(size == 2) {
+                add(consoleSplitControl)
+            } else {
+                set(2, consoleSplitControl)
+            }
+            splitPane.setDividerPosition(1, .7)
+            consoleSplitControl
+        }
+    }
+
+    fun removeConsole() {
+        if(splitPane.items.size == 3) splitPane.items.removeAt(2)
     }
 }
