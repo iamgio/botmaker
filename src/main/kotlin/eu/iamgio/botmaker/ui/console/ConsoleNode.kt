@@ -30,13 +30,17 @@ class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
         runningProperty.set(true)
         children.clear()
         thread {
-            try {
-                consoleControl.log(getString("console.log.start"))
-                telejamBot = TelejamBot(bot).also { it.run() }
-            } catch(e: TelegramException) {
-                consoleControl.logError(getString("console.log.error", e.message ?: ""))
-                if(e.errorCode == 401) consoleControl.logError(getString("console.log.unauthorized"))
-                e.printStackTrace()
+            with(consoleControl.logger) {
+                val logKey = "console.log"
+                try {
+                    log(getString("$logKey.start"))
+                    telejamBot = TelejamBot(bot).also { it.run() }
+                    log(getString("$logKey.started"))
+                } catch(e: TelegramException) {
+                    e.printStackTrace()
+                    logError(getString("$logKey.error", e.message ?: ""))
+                    if(e.errorCode == 401) logError(getString("$logKey.unauthorized"))
+                }
             }
         }
     }
