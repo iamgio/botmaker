@@ -33,7 +33,7 @@ class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
             with(consoleControl.logger) {
                 val logKey = "console.log"
                 try {
-                    log(getString("$logKey.start"))
+                    log(getString("$logKey.start", consoleControl.botName))
                     telejamBot = TelejamBot(bot).also { it.run() }
                     log(getString("$logKey.started"))
                 } catch(e: TelegramException) {

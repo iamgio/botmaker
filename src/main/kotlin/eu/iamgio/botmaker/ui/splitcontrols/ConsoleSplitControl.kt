@@ -17,7 +17,7 @@ import javafx.stage.Stage
 /**
  * @author Giorgio Garofalo
  */
-class ConsoleSplitControl : SplitControl() {
+class ConsoleSplitControl(val botName: String) : SplitControl() {
 
     private val console = ConsoleNode(this)
     private val scrollPane = ScrollPane()
@@ -68,9 +68,13 @@ class ConsoleSplitControl : SplitControl() {
         children += scrollPane
     }
 
-    fun runBot(bot: BotConfiguration) {
+    private fun runBot(bot: BotConfiguration) {
         console.bot = bot
         console.run()
+    }
+
+    fun stopBot() {
+        console.stop()
     }
 
     private fun separate() {
@@ -94,6 +98,6 @@ class ConsoleSplitControl : SplitControl() {
         joinedProperty.set(true)
         stage?.close()
         stage = null
-        root.addConsole(this)
+        root.addConsole(botName, this)
     }
 }

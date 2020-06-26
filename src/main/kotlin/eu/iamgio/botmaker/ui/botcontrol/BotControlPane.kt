@@ -53,10 +53,10 @@ class BotControlPane(
         }
 
         children += Pane(createSvg(SVG_CONSOLE).wrap().withClass("console-svg").apply {
-            var consoleControl = ConsoleSplitControl()
+            var consoleControl = ConsoleSplitControl(name)
             setOnMouseClicked {
-                if(root.consoleControl == null) {
-                    consoleControl = root.addConsole(consoleControl)
+                if(root.consoleControl == null || root.consoleControl!!.botName != name) {
+                    consoleControl = root.addConsole(name, consoleControl)
                 } else {
                     root.removeConsole()
                 }
@@ -83,6 +83,6 @@ class BotControlPane(
 
     fun openConsole() {
         autosave()
-        root.addConsole()
+        root.addConsole(name)
     }
 }

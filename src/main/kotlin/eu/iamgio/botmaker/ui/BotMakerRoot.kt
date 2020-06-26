@@ -29,11 +29,12 @@ class BotMakerRoot(bots: MutableMap<String, BotConfiguration>, settings: Setting
         children += splitPane
     }
 
-    fun addConsole(consoleSplitControl: ConsoleSplitControl = ConsoleSplitControl()): ConsoleSplitControl {
+    fun addConsole(botName: String, consoleSplitControl: ConsoleSplitControl = ConsoleSplitControl(botName)): ConsoleSplitControl {
         return with(splitPane.items) {
             if(size == 2) {
                 add(consoleSplitControl)
             } else {
+                consoleControl?.stopBot()
                 set(2, consoleSplitControl)
             }
             splitPane.setDividerPosition(1, .7)
@@ -42,6 +43,9 @@ class BotMakerRoot(bots: MutableMap<String, BotConfiguration>, settings: Setting
     }
 
     fun removeConsole() {
-        if(splitPane.items.size == 3) splitPane.items.removeAt(2)
+        if(splitPane.items.size == 3) {
+            consoleControl?.stopBot()
+            splitPane.items.removeAt(2)
+        }
     }
 }
