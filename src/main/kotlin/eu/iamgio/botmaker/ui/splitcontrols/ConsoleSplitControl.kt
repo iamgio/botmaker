@@ -5,6 +5,7 @@ import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.*
 import eu.iamgio.botmaker.ui.console.ConsoleNode
+import javafx.application.Platform
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.scene.Scene
@@ -19,7 +20,8 @@ import javafx.stage.Stage
  */
 class ConsoleSplitControl() : SplitControl() {
 
-    private val console = ConsoleNode()
+    private val console = ConsoleNode(this)
+    private val scrollPane = ScrollPane()
 
     private val joinedProperty = SimpleBooleanProperty(true)
     private var stage: Stage? = null
@@ -56,20 +58,26 @@ class ConsoleSplitControl() : SplitControl() {
                 if(console.runningProperty.value) {
                     console.stop()
                 } else {
-                    console.run()
+                    runBot(root.rightControl.currentBotControl?.bot ?: return@setOnMouseClicked)
                 }
             }
         }
+
+        scrollPane.content = console.also { it.bindSize(this, bindWidth = false) }
+        children += scrollPane
     }
 
     fun runBot(bot: BotConfiguration) {
         console.bot = bot
         console.run()
-        children += ScrollPane(console.also { it.bindSize(this, bindWidth = false) })
     }
 
-    fun log(logType: LogType, text: String) {
-        console.children += logType.toLabel(text)
+    fun log(text: String) {
+        Platform.runLater { console.children += Label(text).withClass("log") }
+    }
+
+    fun logError(text: String) {
+        Platform.runLater { console.children += Label(text).withClass("log").withClass("log-error") }
     }
 
     private fun separate() {
@@ -95,11 +103,4 @@ class ConsoleSplitControl() : SplitControl() {
         stage = null
         root.addConsole(this)
     }
-}
-
-enum class LogType(private val styleClass: String) {
-
-    STANDARD("log-standard"), ERROR("log-error");
-
-    fun toLabel(text: String) = Label(text).withClass("log").withClass(styleClass)
 }

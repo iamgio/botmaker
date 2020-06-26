@@ -1,7 +1,9 @@
 package eu.iamgio.botmaker.ui.console
 
 import eu.iamgio.botmaker.TelejamBot
+import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
+import eu.iamgio.botmaker.ui.splitcontrols.ConsoleSplitControl
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.scene.layout.VBox
 import kotlin.concurrent.thread
@@ -9,7 +11,7 @@ import kotlin.concurrent.thread
 /**
  * @author Giorgio Garofalo
  */
-class ConsoleNode : VBox() {
+class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
 
     val runningProperty = SimpleBooleanProperty()
 
@@ -25,8 +27,16 @@ class ConsoleNode : VBox() {
 
     fun run() {
         runningProperty.set(true)
+        children.clear()
         thread {
-            telejamBot = TelejamBot(bot).also { it.run() }
+            try {
+                consoleControl.log(getString("console.log.start"))
+                telejamBot = TelejamBot(bot).also { it.run() }
+            } catch(e: Exception) {
+                consoleControl.logError(getString("console.log.error", e.message ?: ""))
+                e.message?.let { if(it == "Unauthorized") consoleControl.logError(getString("console.log.unauthorized")) }
+                e.printStackTrace()
+            }
         }
     }
 

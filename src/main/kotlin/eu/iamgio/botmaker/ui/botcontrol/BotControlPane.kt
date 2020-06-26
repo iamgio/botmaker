@@ -27,7 +27,7 @@ import javafx.scene.layout.VBox
  */
 class BotControlPane(
         val name: String,
-        private val bot: BotConfiguration,
+        val bot: BotConfiguration,
         private val settings: Settings) : VBox() {
 
     var botToken = bot.botToken
