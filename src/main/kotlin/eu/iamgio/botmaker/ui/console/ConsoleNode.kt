@@ -4,6 +4,7 @@ import eu.iamgio.botmaker.TelejamBot
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.ui.splitcontrols.ConsoleSplitControl
+import io.github.ageofwar.telejam.TelegramException
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.scene.layout.VBox
 import kotlin.concurrent.thread
@@ -32,9 +33,9 @@ class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
             try {
                 consoleControl.log(getString("console.log.start"))
                 telejamBot = TelejamBot(bot).also { it.run() }
-            } catch(e: Exception) {
+            } catch(e: TelegramException) {
                 consoleControl.logError(getString("console.log.error", e.message ?: ""))
-                e.message?.let { if(it == "Unauthorized") consoleControl.logError(getString("console.log.unauthorized")) }
+                if(e.errorCode == 401) consoleControl.logError(getString("console.log.unauthorized"))
                 e.printStackTrace()
             }
         }
