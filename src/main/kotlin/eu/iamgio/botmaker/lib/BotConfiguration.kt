@@ -15,6 +15,6 @@ interface Filter<T> {
 }
 
 interface Action<T> {
-    fun run(bot: Bot, event: T)
+    fun run(bot: Bot, event: T, logger: ConsoleLogger)
     fun toNode(botControl: BotControlPane): Node
 }

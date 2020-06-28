@@ -4,8 +4,8 @@ import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.*
-import eu.iamgio.botmaker.ui.console.ConsoleLogger
 import eu.iamgio.botmaker.ui.console.ConsoleNode
+import eu.iamgio.botmaker.ui.console.UIConsoleLogger
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.scene.Scene
@@ -22,7 +22,7 @@ class ConsoleSplitControl(val botName: String) : SplitControl() {
     private val console = ConsoleNode(this)
     private val scrollPane = ScrollPane()
 
-    val logger = ConsoleLogger(console)
+    val logger = UIConsoleLogger(console)
 
     private val joinedProperty = SimpleBooleanProperty(true)
     private var stage: Stage? = null

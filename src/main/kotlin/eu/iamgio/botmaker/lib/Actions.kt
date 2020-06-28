@@ -1,5 +1,6 @@
 package eu.iamgio.botmaker.lib
 
+import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.ui.SVG_BELL_OFF
 import eu.iamgio.botmaker.ui.SVG_BELL_RING
 import eu.iamgio.botmaker.ui.SVG_REPLY
@@ -15,13 +16,13 @@ import io.github.ageofwar.telejam.methods.SendMessage
 import javafx.scene.layout.Pane
 
 data class Actions<T>(val actions: MutableList<Action<T>> = mutableListOf()) : Action<T> {
-    override fun run(bot: Bot, event: T) = actions.forEach { it.run(bot, event) }
+    override fun run(bot: Bot, event: T, logger: ConsoleLogger) = actions.forEach { it.run(bot, event, logger) }
 
     override fun toNode(botControl: BotControlPane) = Pane()
 }
 
 data class Reply(var text: String, var sendAsReply: Boolean = true, var notification: Boolean = true) : Action<Message> {
-    override fun run(bot: Bot, event: Message) {
+    override fun run(bot: Bot, event: Message, logger: ConsoleLogger) {
         val sendMessage = SendMessage()
                 .text(text)
                 .disableNotification(!notification)
@@ -31,6 +32,7 @@ data class Reply(var text: String, var sendAsReply: Boolean = true, var notifica
             sendMessage.chat(event.chat)
         }
         bot.execute(sendMessage)
+        logger.log(getString("event.action.Reply.log", event.chat.title))
     }
 
     override fun toNode(botControl: BotControlPane) = buildEventLine(botControl,

@@ -44,7 +44,8 @@
   },
   "event": {
     "MessageEventNode": {
-      "text": "When a message is received"
+      "text": "When a message is received",
+      "log": "Received message $1 from $2"
     },
     "filter": {
       "IfMessageStartsWith": {
@@ -57,7 +58,8 @@
         "text": "Reply with",
         "sendAsReply": "Send the message as a reply",
         "notification": "Send notification",
-        "description": "Sends a message to the user.\nThe message can be sent as a reply and notifications can be disabled."
+        "description": "Sends a message to the user.\nThe message can be sent as a reply and notifications can be disabled.",
+        "log": "Sent message to $1"
       }
     }
   },
