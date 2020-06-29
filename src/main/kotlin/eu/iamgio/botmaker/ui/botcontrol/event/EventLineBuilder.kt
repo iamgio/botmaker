@@ -81,4 +81,4 @@ class EventComponentBooleanIcon(val svgOff: String, val svgOn: String, val hintT
 
 fun text(textKey: String) = EventComponentText("event.$textKey")
 fun field(content: String, set: (String) -> Unit) = EventComponentField(content, set)
-fun icon(svgOff: String, svgOn: String, hintTextKey: String, initialState: Boolean, set: (Boolean) -> Unit) = EventComponentBooleanIcon(svgOff, svgOn, "event.$hintTextKey.hint", initialState, set)
+fun icon(svgOff: String, svgOn: String, hintTextKey: String, initialState: Boolean, set: (Boolean) -> Unit) = EventComponentBooleanIcon(svgOff, svgOn, "event.$hintTextKey", initialState, set)

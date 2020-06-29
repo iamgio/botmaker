@@ -48,6 +48,9 @@
       "log": "Received message $1 from $2"
     },
     "filter": {
+      "global": {
+        "casesensitive": "Case sensitive on/off"
+      },
       "IfMessageStartsWith": {
         "text": "If it starts with",
         "description": "Checks if the message text starts with a certain string."
