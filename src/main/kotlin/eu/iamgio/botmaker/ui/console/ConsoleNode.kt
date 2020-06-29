@@ -22,7 +22,6 @@ class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
 
     init {
         stylesheets += "/css/console.css"
-        prefHeight = 20.0
         styleClass += "console"
     }
 
@@ -34,8 +33,8 @@ class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
                 val logKey = "console.log"
                 try {
                     log(getString("$logKey.start", consoleControl.botName))
-                    telejamBot = TelejamBot(bot, this).also { it.run() }
-                    log(getString("$logKey.started"))
+                    telejamBot = TelejamBot(bot, this)
+                    telejamBot!!.run()
                 } catch(e: TelegramException) {
                     e.printStackTrace()
                     logError(getString("$logKey.error", e.message ?: ""))

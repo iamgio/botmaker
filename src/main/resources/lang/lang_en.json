@@ -66,8 +66,7 @@
   "console": {
     "title": "BotMaker - Console",
     "log": {
-      "start": "Starting up bot \"$1\"...",
-      "started": "The bot is now running.",
+      "start": "Bot $1 is now running.",
       "error": "Error: $1",
       "unauthorized": "Is your token correct?"
     }
