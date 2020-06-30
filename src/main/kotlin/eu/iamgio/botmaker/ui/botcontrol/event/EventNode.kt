@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-abstract class EventNode<T>(private val event: Event<T>, val botControlPane: BotControlPane) : VBox() {
+abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlPane) : VBox() {
 
     private val filtersNode = VBox().withClass("filters")
     private val actionsNode = VBox().withClass("actions")
@@ -42,19 +42,15 @@ abstract class EventNode<T>(private val event: Event<T>, val botControlPane: Bot
                 val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.ACTION, getAvailableActions(), this@EventNode)
                 eventChoicePopup.center()
                 eventChoicePopup.show()
-                /*val newAction = Reply("") as Action<T>
-                event.actions.actions += newAction
-                addAction(newAction)*/
-                //botControlPane.autosave()
             }
         }
 
         event.filters.filters.forEach {
-            filtersNode.children.add(actionsNode.children.size - 1, it.toNode(botControlPane))
+            addFilter(it)
         }
 
         event.actions.actions.forEach {
-            actionsNode.children.add(actionsNode.children.size - 1, it.toNode(botControlPane))
+            addAction(it)
         }
     }
 
@@ -62,13 +58,29 @@ abstract class EventNode<T>(private val event: Event<T>, val botControlPane: Bot
     abstract fun getAvailableActions(): List<Action<T>>
 
     fun addFilter(filter: Filter<T>) {
-        event.filters.filters += filter
-        filtersNode.children.add(filtersNode.children.size - 1, filter.toNode(botControlPane))
+        @Suppress("DuplicatedCode")
+        filtersNode.children.add(filtersNode.children.size - 1, filter.toNode(botControlPane).also {
+            if(it is EventLine) {
+                it.setOnRemove {
+                    event.filters.filters -= filter
+                    filtersNode.children -= it
+                    botControlPane.autosave()
+                }
+            }
+        })
     }
 
     fun addAction(action: Action<T>) {
-        event.actions.actions += action
-        actionsNode.children.add(actionsNode.children.size - 1, action.toNode(botControlPane))
+        @Suppress("DuplicatedCode")
+        actionsNode.children.add(actionsNode.children.size - 1, action.toNode(botControlPane).also {
+            if(it is EventLine) {
+                it.setOnRemove {
+                    event.actions.actions -= action
+                    actionsNode.children -= it
+                    botControlPane.autosave()
+                }
+            }
+        })
     }
 }
 
