@@ -17,13 +17,13 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-class EventChoicePopup<T>(type: ChoiceType, items: List<T>, val eventNode: EventNode<*>) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
+class EventChoicePopup<T, R>(type: ChoiceType, items: List<T>, val eventNode: EventNode<R>) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
 
     enum class ChoiceType {
         EVENT, FILTER, ACTION
     }
 
-    private val browsableList: EventChoiceBrowsableList<T>
+    private val browsableList: EventChoiceBrowsableList<T, R>
 
     init {
         children += HBox().apply {
@@ -49,12 +49,12 @@ class EventChoicePopup<T>(type: ChoiceType, items: List<T>, val eventNode: Event
     override fun onConfirm() {
         if(browsableList.indexProperty.value >= 0) {
             val selected = browsableList.children[browsableList.indexProperty.value]
-            (selected as? EventChoiceBrowsableList<*>.EventChoiceLabel)?.onAction(KeyCode.ENTER)
+            (selected as? EventChoiceBrowsableList.EventChoiceLabel<T, R>)?.onAction(KeyCode.ENTER)
         }
     }
 }
 
-class EventChoiceBrowsableList<T>(items: List<T>, scrollPane: ScrollPane, popup: EventChoicePopup<*>, descriptionBox: EventChoiceDescriptionBox) : BrowsableVBox(true, scrollPane) {
+class EventChoiceBrowsableList<T, R>(items: List<T>, scrollPane: ScrollPane, popup: EventChoicePopup<T, R>, descriptionBox: EventChoiceDescriptionBox) : BrowsableVBox(true, scrollPane) {
 
     init {
         styleClass += "event-choice-list"
@@ -62,7 +62,7 @@ class EventChoiceBrowsableList<T>(items: List<T>, scrollPane: ScrollPane, popup:
 
         indexProperty.addListener { _, _, index ->
             if(index is Int && index >= 0) {
-                when(val item = (children[index] as EventChoiceBrowsableList<*>.EventChoiceLabel).item) {
+                when(val item = (children[index] as EventChoiceBrowsableList.EventChoiceLabel<T, R>).item) {
                     is Filter<*> -> descriptionBox.update(item)
                     is Action<*> -> descriptionBox.update(item)
                 }
@@ -72,7 +72,7 @@ class EventChoiceBrowsableList<T>(items: List<T>, scrollPane: ScrollPane, popup:
         }
     }
 
-    inner class EventChoiceLabel(val item: T, private val popup: EventChoicePopup<*>) : Label(), Actionable {
+    class EventChoiceLabel<T, R>(val item: T, private val popup: EventChoicePopup<T, R>) : Label(), Actionable {
 
         init {
             prefHeight = 50.0
@@ -93,8 +93,8 @@ class EventChoiceBrowsableList<T>(items: List<T>, scrollPane: ScrollPane, popup:
                 popup.hide()
                 println("Confirmed $text")
                 when(item) {
-                    is Filter<*> -> popup.eventNode.addFilter(item)
-                    is Action<*> -> popup.eventNode.addAction(item)
+                    is Filter<*> -> popup.eventNode.addFilter(item as Filter<R>)
+                    is Action<*> -> popup.eventNode.addAction(item as Action<R>)
                 }
                 popup.eventNode.botControlPane.autosave()
             }

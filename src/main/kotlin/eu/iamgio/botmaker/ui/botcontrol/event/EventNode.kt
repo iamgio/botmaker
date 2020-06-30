@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-abstract class EventNode<T>(event: Event<T>, val botControlPane: BotControlPane) : VBox() {
+abstract class EventNode<T>(private val event: Event<T>, val botControlPane: BotControlPane) : VBox() {
 
     private val filtersNode = VBox().withClass("filters")
     private val actionsNode = VBox().withClass("actions")
@@ -50,22 +50,24 @@ abstract class EventNode<T>(event: Event<T>, val botControlPane: BotControlPane)
         }
 
         event.filters.filters.forEach {
-            addFilter(it)
+            filtersNode.children.add(actionsNode.children.size - 1, it.toNode(botControlPane))
         }
 
         event.actions.actions.forEach {
-            addAction(it)
+            actionsNode.children.add(actionsNode.children.size - 1, it.toNode(botControlPane))
         }
     }
 
     abstract fun getAvailableFilters(): List<Filter<T>>
     abstract fun getAvailableActions(): List<Action<T>>
 
-    fun addFilter(filter: Filter<*>) {
+    fun addFilter(filter: Filter<T>) {
+        event.filters.filters += filter
         filtersNode.children.add(filtersNode.children.size - 1, filter.toNode(botControlPane))
     }
 
-    fun addAction(action: Action<*>) {
+    fun addAction(action: Action<T>) {
+        event.actions.actions += action
         actionsNode.children.add(actionsNode.children.size - 1, action.toNode(botControlPane))
     }
 }
