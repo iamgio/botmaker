@@ -62,7 +62,7 @@ class EventChoiceBrowsableList<T, R>(items: List<T>, scrollPane: ScrollPane, pop
 
         indexProperty.addListener { _, _, index ->
             if(index is Int && index >= 0) {
-                when(val item = (children[index] as EventChoiceBrowsableList.EventChoiceLabel<T, R>).item) {
+                when(val item = (children[index] as EventChoiceLabel<*, *>).item) {
                     is Filter<*> -> descriptionBox.update(item)
                     is Action<*> -> descriptionBox.update(item)
                 }
@@ -87,16 +87,24 @@ class EventChoiceBrowsableList<T, R>(items: List<T>, scrollPane: ScrollPane, pop
             }
         }
 
+        @Suppress("UNCHECKED_CAST")
         override fun onAction(keyCode: KeyCode) {
-            println(keyCode)
             if(keyCode == KeyCode.ENTER) {
                 popup.hide()
                 println("Confirmed $text")
-                when(item) {
-                    is Filter<*> -> popup.eventNode.addFilter(item as Filter<R>)
-                    is Action<*> -> popup.eventNode.addAction(item as Action<R>)
+                with(popup.eventNode) {
+                    when(item) {
+                        is Filter<*> -> (item as Filter<R>).let {
+                            event.filters.filters += it
+                            addFilter(it)
+                        }
+                        is Action<*> -> (item as Action<R>).let {
+                            event.actions.actions += it
+                            addAction(it)
+                        }
+                    }
+                    popup.eventNode.botControlPane.autosave()
                 }
-                popup.eventNode.botControlPane.autosave()
             }
         }
     }
