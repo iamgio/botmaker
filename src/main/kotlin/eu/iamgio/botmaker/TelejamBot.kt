@@ -28,7 +28,7 @@ class TelejamBot(configuration: BotConfiguration, private val logger: ConsoleLog
 
     override fun onError(t: Throwable) {
         if (t is TelegramException) {
-            logger.logError(getString(t.errorCode.toKey(), t.message ?: "Unknown error", t.errorCode.toString()))
+            logger.logError(getString(toErrorKey(t.errorCode), t.message ?: "Unknown error", t.errorCode.toString()))
         } else {
             logger.logError(t.message ?: "Unknown error (${t::class.qualifiedName})")
         }
@@ -50,7 +50,7 @@ fun newTelejamBot(configuration: BotConfiguration, logger: ConsoleLogger): Telej
         TelejamBot(configuration, logger)
     } catch (e: IOException) {
         if (e is TelegramException) {
-            logger.logError(getString(e.errorCode.toKey(), e.message ?: "Unknown error", e.errorCode.toString()))
+            logger.logError(getString(toErrorKey(e.errorCode), e.message ?: "Unknown error", e.errorCode.toString()))
         } else {
             logger.logError(e.message ?: "Unknown error (${e::class.qualifiedName})")
         }
@@ -58,7 +58,8 @@ fun newTelejamBot(configuration: BotConfiguration, logger: ConsoleLogger): Telej
     }
 }
 
-fun Int.toKey() = when (this) {
-    401 -> "console.log.unauthorized"
-    else -> "console.log.unknownError"
+fun toErrorKey(code: Int) = "console.log." + when (code) {
+    401 -> "unauthorized"
+    404 -> "notFound"
+    else -> "unknownError"
 }

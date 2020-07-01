@@ -72,7 +72,8 @@
       "start": "$1 is now running.",
       "stop": "$1 stopped.",
       "unknownError": "$1 (error code $2)",
-      "unauthorized": "Invalid bot token."
+      "unauthorized": "Invalid bot token.",
+      "notFound": "Not found.\nIs your token correct?"
     }
   }
 }
