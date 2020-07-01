@@ -61,9 +61,9 @@ class BotControlPane(
                     root.removeConsole()
                 }
             }
-        })
+        }).apply { setMinSize(50.0, 50.0) }
 
-        children += ScrollPane(eventsVBox).withClass("edge-to-edge")
+        children += ScrollPane(eventsVBox).withClass("edge-to-edge").also { it.style = "-fx-background-color: darkred;" }
 
         bot.messageEvents.forEach {
             eventsVBox.children += MessageEventNode(it, this)
