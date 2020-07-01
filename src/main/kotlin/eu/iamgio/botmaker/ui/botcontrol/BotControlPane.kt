@@ -30,7 +30,6 @@ class BotControlPane(
         val bot: BotConfiguration,
         private val settings: Settings) : VBox() {
 
-    var botToken = bot.botToken
     private val eventsVBox = VBox()
 
     init {

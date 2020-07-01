@@ -27,6 +27,7 @@
 .token-box .svg-wrap {
     -fx-scale-x: .6;
     -fx-scale-y: .6;
+    -fx-padding: 0 15 0 0;
 }
 
 .token-box .svg {
