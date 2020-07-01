@@ -47,7 +47,7 @@ class MessageEventHandler(private val bot: Bot, private val event: Event<Message
 
 fun newTelejamBot(configuration: BotConfiguration, logger: ConsoleLogger): TelejamBot {
     return try {
-        TelejamBot(configuration, logger)
+        TelejamBot(configuration.deepCopy(), logger)
     } catch (e: IOException) {
         if (e is TelegramException) {
             logger.logError(getString(e.errorCode.toKey(), e.message ?: "Unknown error", e.errorCode.toString()))
