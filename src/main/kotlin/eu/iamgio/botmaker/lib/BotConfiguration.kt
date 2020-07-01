@@ -6,9 +6,7 @@ import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.messages.Message
 import javafx.scene.Node
 
-data class BotConfiguration(var botToken: String, val messageEvents: MutableList<Event<Message>> = mutableListOf()) {
-    fun deepCopy() = gson.fromJson(gson.toJson(this), BotConfiguration::class.java)
-}
+data class BotConfiguration(var botToken: String, val messageEvents: MutableList<Event<Message>> = mutableListOf())
 
 data class Event<T>(val filters: Filters<T> = Filters(), val actions: Actions<T> = Actions())
 

@@ -2,6 +2,7 @@ package eu.iamgio.botmaker.ui.console
 
 import eu.iamgio.botmaker.TelejamBot
 import eu.iamgio.botmaker.lib.BotConfiguration
+import eu.iamgio.botmaker.loadBotConfiguration
 import eu.iamgio.botmaker.newTelejamBot
 import eu.iamgio.botmaker.ui.splitcontrols.ConsoleSplitControl
 import io.github.ageofwar.telejam.TelegramException
@@ -16,8 +17,6 @@ class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
 
     val runningProperty = SimpleBooleanProperty()
 
-    lateinit var bot: BotConfiguration
-
     private var telejamBot: TelejamBot? = null
     private var botThread: Thread? = null
 
@@ -31,7 +30,7 @@ class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
         children.clear()
         botThread = thread(isDaemon = true) {
             try {
-                telejamBot = newTelejamBot(bot, consoleControl.logger)
+                telejamBot = newTelejamBot(loadBotConfiguration(consoleControl.botName), consoleControl.logger)
                 telejamBot!!.run()
             } catch (e: TelegramException) {
                 stop()

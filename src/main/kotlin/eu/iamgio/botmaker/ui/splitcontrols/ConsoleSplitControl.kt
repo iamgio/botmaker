@@ -59,18 +59,13 @@ class ConsoleSplitControl(val botName: String) : SplitControl() {
                 if(console.runningProperty.value) {
                     console.stop()
                 } else {
-                    runBot(root.rightControl.currentBotControl?.bot ?: return@setOnMouseClicked)
+                    console.run()
                 }
             }
         }
 
         scrollPane.content = console.also { it.bindSize(this, bindWidth = false) }
         children += scrollPane
-    }
-
-    private fun runBot(bot: BotConfiguration) {
-        console.bot = bot
-        console.run()
     }
 
     fun stopBot() {
