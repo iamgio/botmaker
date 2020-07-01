@@ -69,9 +69,10 @@
   "console": {
     "title": "BotMaker - Console",
     "log": {
-      "start": "Bot $1 is now running.",
-      "error": "Error: $1",
-      "unauthorized": "Is your token correct?"
+      "start": "$1 is now running.",
+      "stop": "$1 stopped.",
+      "unknownError": "$1 (error code $2)",
+      "unauthorized": "Invalid bot token."
     }
   }
 }

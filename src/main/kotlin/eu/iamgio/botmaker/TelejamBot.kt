@@ -7,13 +7,30 @@ import eu.iamgio.botmaker.lib.Event
 import eu.iamgio.botmaker.lib.telejam.text
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.LongPollingBot
+import io.github.ageofwar.telejam.TelegramException
+import io.github.ageofwar.telejam.loggers.Loggers.emptyLogger
 import io.github.ageofwar.telejam.messages.Message
 import io.github.ageofwar.telejam.messages.MessageHandler
+import java.io.IOException
 
-class TelejamBot(configuration: BotConfiguration, logger: ConsoleLogger) : LongPollingBot(Bot.fromToken(configuration.botToken)) {
+class TelejamBot(configuration: BotConfiguration, private val logger: ConsoleLogger) : LongPollingBot(Bot.fromToken(configuration.botToken), emptyLogger()) {
     init {
         configuration.messageEvents.forEach {
             events.registerUpdateHandlers(MessageEventHandler(bot, it, logger))
+        }
+    }
+
+    override fun run() {
+        logger.log(getString("console.log.start", bot.username))
+        super.run()
+        logger.log(getString("console.log.stop", bot.username))
+    }
+
+    override fun onError(t: Throwable) {
+        if (t is TelegramException) {
+            logger.logError(getString(t.errorCode.toKey(), t.message ?: "Unknown error", t.errorCode.toString()))
+        } else {
+            logger.logError(t.message ?: "Unknown error (${t::class.qualifiedName})")
         }
     }
 }
@@ -26,4 +43,22 @@ class MessageEventHandler(private val bot: Bot, private val event: Event<Message
             action.run(bot, message, logger)
         }
     }
+}
+
+fun newTelejamBot(configuration: BotConfiguration, logger: ConsoleLogger): TelejamBot {
+    return try {
+        TelejamBot(configuration, logger)
+    } catch (e: IOException) {
+        if (e is TelegramException) {
+            logger.logError(getString(e.errorCode.toKey(), e.message ?: "Unknown error", e.errorCode.toString()))
+        } else {
+            logger.logError(e.message ?: "Unknown error (${e::class.qualifiedName})")
+        }
+        throw e
+    }
+}
+
+fun Int.toKey() = when (this) {
+    401 -> "console.log.unauthorized"
+    else -> "console.log.unknownError"
 }

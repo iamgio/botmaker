@@ -1,8 +1,8 @@
 package eu.iamgio.botmaker.ui.console
 
 import eu.iamgio.botmaker.TelejamBot
-import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
+import eu.iamgio.botmaker.newTelejamBot
 import eu.iamgio.botmaker.ui.splitcontrols.ConsoleSplitControl
 import io.github.ageofwar.telejam.TelegramException
 import javafx.beans.property.SimpleBooleanProperty
@@ -19,6 +19,7 @@ class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
     lateinit var bot: BotConfiguration
 
     private var telejamBot: TelejamBot? = null
+    private var botThread: Thread? = null
 
     init {
         stylesheets += "/css/console.css"
@@ -28,24 +29,21 @@ class ConsoleNode(private val consoleControl: ConsoleSplitControl) : VBox() {
     fun run() {
         runningProperty.set(true)
         children.clear()
-        thread {
-            with(consoleControl.logger) {
-                val logKey = "console.log"
-                try {
-                    log(getString("$logKey.start", consoleControl.botName))
-                    telejamBot = TelejamBot(bot, this)
-                    telejamBot!!.run()
-                } catch(e: TelegramException) {
-                    e.printStackTrace()
-                    logError(getString("$logKey.error", e.message ?: ""))
-                    if(e.errorCode == 401) logError(getString("$logKey.unauthorized"))
-                }
+        botThread = thread(isDaemon = true) {
+            try {
+                telejamBot = newTelejamBot(bot, consoleControl.logger)
+                telejamBot!!.run()
+            } catch (e: TelegramException) {
+                stop()
+                e.printStackTrace()
             }
         }
     }
 
     fun stop() {
-        runningProperty.set(false)
+        botThread?.interrupt()
+        botThread?.join()
         telejamBot?.close()
+        runningProperty.set(false)
     }
 }
