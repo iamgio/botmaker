@@ -1,9 +1,13 @@
 @import "style.css";
 
+.console {
+    -fx-padding: 20 0 0 20;
+    -fx-spacing: 7;
+}
+
 .log {
-    -fx-font-size: 20;
+    -fx-font-size: 18;
     -fx-wrap-text: true;
-    -fx-padding: 20 5 0 20;
 }
 
 .log-error {
