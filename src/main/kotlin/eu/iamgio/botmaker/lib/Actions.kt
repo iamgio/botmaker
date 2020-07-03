@@ -1,6 +1,5 @@
 package eu.iamgio.botmaker.lib
 
-import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.ui.SVG_BELL_OFF
 import eu.iamgio.botmaker.ui.SVG_BELL_RING
 import eu.iamgio.botmaker.ui.SVG_REPLY
@@ -31,8 +30,7 @@ data class Reply(var text: String, var sendAsReply: Boolean = true, var notifica
         } else {
             sendMessage.chat(event.chat)
         }
-        bot.execute(sendMessage)
-        logger.log(getString("event.action.Reply.log", event.chat.title))
+        logger.logMessageSent(bot.execute(sendMessage))
     }
 
     override fun toNode(botControl: BotControlPane) = buildEventLine(botControl,

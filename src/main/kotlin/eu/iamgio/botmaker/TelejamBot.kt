@@ -20,9 +20,9 @@ class TelejamBot(configuration: BotConfiguration, private val logger: ConsoleLog
     }
 
     override fun run() {
-        logger.log(getString("console.log.start", bot.username))
+        logger.logStart(bot)
         super.run()
-        logger.log(getString("console.log.stop", bot.username))
+        logger.logStop(bot)
     }
 
     override fun onError(t: Throwable) {

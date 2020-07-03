@@ -3,6 +3,7 @@ package eu.iamgio.botmaker.lib
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.telejam.description
 import eu.iamgio.botmaker.toErrorKey
+import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.TelegramException
 import io.github.ageofwar.telejam.messages.Message
 import java.time.LocalDateTime
@@ -13,7 +14,16 @@ import java.time.format.DateTimeFormatter
  */
 interface ConsoleLogger {
     fun log(text: String)
+    fun logStart(bot: Bot) {
+        log(getString("console.log.start", bot.username))
+    }
+    fun logStop(bot: Bot) {
+        log(getString("console.log.stop", bot.username))
+    }
+
     fun logMessage(message: Message)
+    fun logMessageSent(message: Message) = logMessage(message)
+
     fun logError(text: String)
     fun logError(throwable: Throwable) {
         if (throwable is TelegramException) {

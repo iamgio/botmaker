@@ -18,7 +18,11 @@ class UIConsoleLogger(private val console: ConsoleNode) : ConsoleLogger {
     }
 
     override fun logMessage(message: Message) {
-        Platform.runLater { console.children += Label(getString("event.MessageEventNode.log.${message::class.simpleName}", message.chat.title, message.description ?: "empty caption")).withClass("log") }
+        Platform.runLater { console.children += Label(getString("event.MessageEventNode.log.${message::class.simpleName}", message.chat.title, message.description ?: "empty caption")).withClass("log").withClass("log-message") }
+    }
+
+    override fun logMessageSent(message: Message) {
+        Platform.runLater { console.children += Label(getString("event.MessageEventNode.log.${message::class.simpleName}", message.chat.title, message.description ?: "empty caption")).withClass("log").withClass("log-message-sent") }
     }
 
     override fun logError(text: String) {

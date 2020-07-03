@@ -14,3 +14,7 @@
     -fx-text-fill: #ff4f4f;
     -fx-font-weight: bold;
 }
+
+.log-message-sent {
+    -fx-text-fill: #888888;
+}
