@@ -45,7 +45,33 @@
   "event": {
     "MessageEventNode": {
       "text": "When a message is received",
-      "log": "Received message $1 from $2"
+      "log": {
+        "TextMessage": "$1: $2",
+        "PhotoMessage": "$1: Photo, $2",
+        "Forward": "$1: Forward, $2",
+        "AnimationMessage": "$1: Gif, $2",
+        "AudioMessage": "$1: Audio, $2",
+        "ChatCreatedMessage": "$1 chat created",
+        "ContactMessage": "$1: Contact",
+        "DeleteChatPhotoMessage": "$1: Chat photo deleted",
+        "DiceMessage": "$1: Dice",
+        "DocumentMessage": "$1: Document, $2",
+        "GameMessage": "$1: Game",
+        "LeftChatMemberMessage": "$1: Member left, $2",
+        "LocationMessage": "$1: Location",
+        "MessagePinnedMessage" : "$1: Message pinned",
+        "MigrateFromChatIdMessage": "$1: Migrated from chat $2",
+        "MigrateToChatIdMessage": "$1: Migrated to chat $2",
+        "NewChatMembersMessage": "$1: Member(s) joined, $2",
+        "NewChatPhotoMessage": "$1: New chat photo",
+        "NewChatTitleMessage": "$1: New chat title, $2",
+        "PollMessage": "$1: Poll",
+        "StickerMessage": "$1: Sticker",
+        "VenueMessage": "$1: Venue",
+        "VideoMessage": "$1: Video, $2",
+        "VideoNoteMessage": "$1: VideoNote",
+        "VoiceMessage": "$1: Voice, $2"
+      }
     },
     "filter": {
       "global": {
@@ -71,7 +97,7 @@
     "log": {
       "start": "$1 is now running.",
       "stop": "$1 stopped.",
-      "unknownError": "$1 (error code $2)",
+      "unknownError": "$1 ($2)",
       "unauthorized": "Invalid bot token.",
       "notFound": "Not found.\nIs your token correct?"
     }

@@ -4,6 +4,7 @@ import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.lib.ConsoleLogger
 import eu.iamgio.botmaker.lib.Event
+import eu.iamgio.botmaker.lib.telejam.description
 import eu.iamgio.botmaker.lib.telejam.text
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.LongPollingBot
@@ -37,7 +38,7 @@ class TelejamBot(configuration: BotConfiguration, private val logger: ConsoleLog
 
 class MessageEventHandler(private val bot: Bot, private val event: Event<Message>, private val logger: ConsoleLogger) : MessageHandler {
     override fun onMessage(message: Message) {
-        logger.log(getString("event.MessageEventNode.log", message.text?.toString() ?: "", message.chat.title))
+        logger.logMessage(message)
         val (filter, action) = event
         if (filter.filter(message)) {
             action.run(bot, message, logger)
@@ -52,7 +53,7 @@ fun newTelejamBot(configuration: BotConfiguration, logger: ConsoleLogger): Telej
         if (e is TelegramException) {
             logger.logError(getString(toErrorKey(e.errorCode), e.message ?: "Unknown error", e.errorCode.toString()))
         } else {
-            logger.logError(e.message ?: "Unknown error (${e::class.qualifiedName})")
+            logger.logError(getString("console.log.unknownError", e.message ?: "Unknown error", e::class.qualifiedName ?: "Unknown"))
         }
         throw e
     }
