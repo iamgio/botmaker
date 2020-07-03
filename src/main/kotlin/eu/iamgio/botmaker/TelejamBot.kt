@@ -26,11 +26,7 @@ class TelejamBot(configuration: BotConfiguration, private val logger: ConsoleLog
     }
 
     override fun onError(t: Throwable) {
-        if (t is TelegramException) {
-            logger.logError(getString(toErrorKey(t.errorCode), t.message ?: "Unknown error", t.errorCode.toString()))
-        } else {
-            logger.logError(t.message ?: "Unknown error (${t::class.qualifiedName})")
-        }
+        logger.logError(t)
     }
 }
 

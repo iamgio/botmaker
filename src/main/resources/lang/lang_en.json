@@ -95,6 +95,7 @@
   "console": {
     "title": "BotMaker - Console",
     "log": {
+      "format": "[$1] $2",
       "start": "$1 is now running.",
       "stop": "$1 stopped.",
       "unknownError": "$1 ($2)",
