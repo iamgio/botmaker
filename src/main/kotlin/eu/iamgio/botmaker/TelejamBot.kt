@@ -14,6 +14,7 @@ import java.io.IOException
 
 class TelejamBot(configuration: BotConfiguration, private val logger: ConsoleLogger) : LongPollingBot(Bot.fromToken(configuration.botToken), emptyLogger()) {
     init {
+        events.registerUpdateHandler(MessageHandler { message -> logger.logMessage(message) })
         configuration.messageEvents.forEach {
             events.registerUpdateHandlers(MessageEventHandler(bot, it, logger))
         }
@@ -32,7 +33,6 @@ class TelejamBot(configuration: BotConfiguration, private val logger: ConsoleLog
 
 class MessageEventHandler(private val bot: Bot, private val event: Event<Message>, private val logger: ConsoleLogger) : MessageHandler {
     override fun onMessage(message: Message) {
-        logger.logMessage(message)
         val (filter, action) = event
         if (filter.filter(message)) {
             action.run(bot, message, logger)

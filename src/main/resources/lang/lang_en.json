@@ -80,6 +80,26 @@
       "IfMessageStartsWith": {
         "text": "If it starts with",
         "description": "Checks if the message text starts with a certain string."
+      },
+      "IfMessageEndsWith": {
+        "text": "If it ends with",
+        "description": "Checks if the message text ends with a certain string."
+      },
+      "IfMessageContains": {
+        "text": "If it contains",
+        "description": "Checks if the message text contains a certain string."
+      },
+      "IfMessageMatchesRegex": {
+        "text": "If it matches regex",
+        "description": "Checks if the message text matches a certain regex."
+      },
+      "IfMessageContainsRegex": {
+        "text": "If it contains regex",
+        "description": "Checks if the message text contains a certain regex."
+      },
+      "IfMessageIsCommand": {
+        "text": "If it is a command",
+        "description": "Checks if the message is a command."
       }
     },
     "action": {

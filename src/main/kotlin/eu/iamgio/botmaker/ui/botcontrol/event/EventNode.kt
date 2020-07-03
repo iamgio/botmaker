@@ -85,6 +85,13 @@ abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlP
 }
 
 class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : EventNode<Message>(event, botControlPane) {
-    override fun getAvailableFilters() = listOf(IfMessageStartsWith("", false))
+    override fun getAvailableFilters() = listOf(
+            IfMessageIsCommand("", true),
+            IfMessageStartsWith("", false),
+            IfMessageEndsWith("", false),
+            IfMessageContains("", false),
+            IfMessageMatchesRegex("", false),
+            IfMessageContainsRegex("", false)
+    )
     override fun getAvailableActions() = listOf(Reply(""))
 }
