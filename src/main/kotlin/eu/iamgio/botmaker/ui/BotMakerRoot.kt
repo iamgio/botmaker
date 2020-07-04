@@ -42,9 +42,9 @@ class BotMakerRoot(bots: MutableMap<String, BotConfiguration>, settings: Setting
         }
     }
 
-    fun removeConsole() {
+    fun removeConsole(stopBot: Boolean = true) {
         if(splitPane.items.size == 3) {
-            consoleControl?.stopBot()
+            if(stopBot) consoleControl?.stopBot()
             splitPane.items.removeAt(2)
         }
     }
