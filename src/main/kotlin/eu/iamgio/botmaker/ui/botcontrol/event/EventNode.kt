@@ -4,7 +4,6 @@ import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.*
 import eu.iamgio.botmaker.ui.*
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
-import eu.iamgio.botmaker.ui.popup.EventChoicePopup
 import io.github.ageofwar.telejam.messages.Message
 import javafx.application.Platform
 import javafx.geometry.Pos
@@ -17,73 +16,29 @@ import javafx.scene.layout.VBox
  */
 abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlPane) : VBox() {
 
-    private val filtersNode = VBox().withClass("filters")
-    private val actionsNode = VBox().withClass("actions")
+    private val filtersBlock = FilterEventBlock(this, event.filters).withClass("filters")
+    private val actionsBlock = ActionEventBlock(this, event.actions).withClass("actions")
 
     init {
         styleClass += "event"
         bindSize(bindHeight = false)
 
         children += EventNodeTitle()
-        children += filtersNode
-        children += actionsNode
-
-        filtersNode.children += Label("+ ${getString("new.filter")}").withClass("new").apply {
-            setOnMouseClicked {
-                println("New filter")
-                val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.FILTER, getAvailableFilters(), this@EventNode)
-                eventChoicePopup.center()
-                eventChoicePopup.show()
-            }
-        }
-
-        actionsNode.children += Label("+ ${getString("new.action")}").withClass("new").apply {
-            setOnMouseClicked {
-                println("New action")
-                val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.ACTION, getAvailableActions(), this@EventNode)
-                eventChoicePopup.center()
-                eventChoicePopup.show()
-            }
-        }
+        children += filtersBlock
+        children += actionsBlock
 
         event.filters.filters.forEach {
-            addFilter(it)
+            filtersBlock.add(it, botControlPane, addToFilters = false)
         }
 
         event.actions.actions.forEach {
-            addAction(it)
+            actionsBlock.add(it, botControlPane, addToActions = false)
         }
     }
 
     abstract fun getAvailableFilters(): List<Filter<T>>
     abstract fun getAvailableActions(): List<Action<T>>
     abstract fun removeEvent()
-
-    fun addFilter(filter: Filter<T>) {
-        @Suppress("DuplicatedCode")
-        filtersNode.children.add(filtersNode.children.size - 1, filter.toNode(botControlPane).also {
-            if(it is EventLine) {
-                it.setOnRemove {
-                    event.filters.filters -= filter
-                    filtersNode.children -= it
-                    botControlPane.autosave()
-                }
-            }
-        })
-    }
-
-    fun addAction(action: Action<T>) {
-        @Suppress("DuplicatedCode")
-        actionsNode.children.add(actionsNode.children.size - 1, action.toNode(botControlPane).also {
-            if(it is EventLine) {
-                it.setOnRemove {
-                    event.actions.actions -= action
-                    actionsNode.children -= it
-                    botControlPane.autosave()
-                }
-            }
-        })
-    }
 
     private inner class EventNodeTitle : HBox() {
 

@@ -6,7 +6,10 @@ import eu.iamgio.botmaker.lib.Filter
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.Actionable
 import eu.iamgio.botmaker.ui.BrowsableVBox
+import eu.iamgio.botmaker.ui.botcontrol.event.ActionEventBlock
+import eu.iamgio.botmaker.ui.botcontrol.event.EventBlock
 import eu.iamgio.botmaker.ui.botcontrol.event.EventNode
+import eu.iamgio.botmaker.ui.botcontrol.event.FilterEventBlock
 import eu.iamgio.botmaker.ui.withClass
 import javafx.scene.control.Label
 import javafx.scene.control.ScrollPane
@@ -17,7 +20,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-class EventChoicePopup<T, R>(type: ChoiceType, items: List<T>, val eventNode: EventNode<R>) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
+class EventChoicePopup<T, R>(type: ChoiceType, items: List<T>, val eventBlock: EventBlock<R>, val eventNode: EventNode<R>) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
 
     enum class ChoiceType {
         EVENT, FILTER, ACTION
@@ -92,18 +95,16 @@ class EventChoiceBrowsableList<T, R>(items: List<T>, scrollPane: ScrollPane, pop
             if(keyCode == KeyCode.ENTER) {
                 popup.hide()
                 println("Confirmed $text")
-                with(popup.eventNode) {
+                with(popup) {
                     when(item) {
                         is Filter<*> -> (item as Filter<R>).let {
-                            event.filters.filters += it
-                            addFilter(it)
+                            (eventBlock as FilterEventBlock<R>).add(it, eventNode.botControlPane)
                         }
                         is Action<*> -> (item as Action<R>).let {
-                            event.actions.actions += it
-                            addAction(it)
+                            (eventBlock as ActionEventBlock<R>).add(it, eventNode.botControlPane)
                         }
                     }
-                    popup.eventNode.botControlPane.autosave()
+                    eventNode.botControlPane.autosave()
                 }
             }
         }

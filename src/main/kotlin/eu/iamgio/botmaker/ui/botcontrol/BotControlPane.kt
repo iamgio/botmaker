@@ -2,18 +2,16 @@ package eu.iamgio.botmaker.ui.botcontrol
 
 import animatefx.animation.FadeInUp
 import eu.iamgio.botmaker.Settings
-import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.BotConfiguration
-import eu.iamgio.botmaker.lib.Event
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.save
 import eu.iamgio.botmaker.ui.SVG_CONSOLE
 import eu.iamgio.botmaker.ui.botcontrol.event.MessageEventNode
+import eu.iamgio.botmaker.ui.botcontrol.event.NewEventButton
 import eu.iamgio.botmaker.ui.createSvg
 import eu.iamgio.botmaker.ui.splitcontrols.ConsoleSplitControl
 import eu.iamgio.botmaker.ui.withClass
 import eu.iamgio.botmaker.ui.wrap
-import io.github.ageofwar.telejam.messages.Message
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.control.ScrollPane
@@ -42,14 +40,7 @@ class BotControlPane(
             children += TokenBox(this@BotControlPane)
         }
 
-        children += Label("+ ${getString("new.event")}").withClass("new").apply {
-            setOnMouseClicked {
-                println("New event")
-                val newEvent = Event<Message>() //TODO choice
-                bot.messageEvents += newEvent
-                eventsVBox.children += MessageEventNode(newEvent, this@BotControlPane)
-            }
-        }
+        children += NewEventButton(this)
 
         children += Pane(createSvg(SVG_CONSOLE).wrap().withClass("console-svg").apply {
             var consoleControl = ConsoleSplitControl(name)
