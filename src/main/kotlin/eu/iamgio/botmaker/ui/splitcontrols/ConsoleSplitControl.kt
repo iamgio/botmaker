@@ -1,7 +1,6 @@
 package eu.iamgio.botmaker.ui.splitcontrols
 
 import eu.iamgio.botmaker.bundle.getString
-import eu.iamgio.botmaker.lib.BotConfiguration
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.*
 import eu.iamgio.botmaker.ui.console.ConsoleNode
@@ -78,7 +77,7 @@ class ConsoleSplitControl(val botName: String) : SplitControl() {
             return
         }
         joinedProperty.set(false)
-        root.removeConsole()
+        root.removeConsole(stopBot = false)
         stage = Stage().also {
             it.scene = Scene(VBox(this).apply { styleClass += "console-root" }, 500.0, 400.0)
                     .apply { stylesheets += "/css/style.css" }

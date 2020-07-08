@@ -30,7 +30,7 @@ class BotControlPane(
         val bot: BotConfiguration,
         private val settings: Settings) : VBox() {
 
-    private val eventsVBox = VBox()
+    val eventsVBox = VBox()
 
     init {
         styleClass += "bot-control-pane"

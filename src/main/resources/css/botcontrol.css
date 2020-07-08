@@ -58,10 +58,14 @@
     -fx-padding: 40 0 20 0;
 }
 
+.event .event-title-node {
+    -fx-spacing: 10;
+    -fx-padding: 0 0 10 0;
+}
+
 .event .event-title {
     -fx-font-size: 30;
     -fx-font-weight: bold;
-    -fx-padding: 0 0 10 0;
 }
 
 .event .new {
@@ -114,6 +118,6 @@
     -fx-scale-y: .6;
 }
 
-.event .event-line:hover .remove-line-button {
+.event .event-line:hover .remove-line-button, .event .event-title-node:hover .remove-line-button {
     -fx-scale-y: 1;
 }
