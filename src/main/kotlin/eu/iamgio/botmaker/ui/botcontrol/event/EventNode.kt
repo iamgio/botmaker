@@ -116,7 +116,10 @@ class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : 
             IfMessageContainsRegex("", false)
     )
 
-    override fun getAvailableActions() = listOf(Reply(""))
+    override fun getAvailableActions() = listOf(
+            Reply(""),
+            RandomAction<Message>()
+    )
 
     override fun removeEvent() {
         botControlPane.bot.messageEvents -= event
