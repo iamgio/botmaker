@@ -20,6 +20,12 @@ data class Actions<T>(val actions: MutableList<Action<T>> = mutableListOf()) : A
     override fun toNode(botControl: BotControlPane) = Pane()
 }
 
+data class RandomAction<T>(val actions: MutableList<Action<T>> = mutableListOf()) : Action<T> {
+    override fun run(bot: Bot, event: T, logger: ConsoleLogger) = actions.random().run(bot, event, logger)
+
+    override fun toNode(botControl: BotControlPane) = Pane()
+}
+
 data class Reply(var text: String, var sendAsReply: Boolean = true, var notification: Boolean = true) : Action<Message> {
     override fun run(bot: Bot, event: Message, logger: ConsoleLogger) {
         val sendMessage = SendMessage()
