@@ -2,13 +2,14 @@ package eu.iamgio.botmaker.ui.botcontrol.event
 
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.*
-import eu.iamgio.botmaker.ui.bindSize
+import eu.iamgio.botmaker.ui.*
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
-import eu.iamgio.botmaker.ui.center
 import eu.iamgio.botmaker.ui.popup.EventChoicePopup
-import eu.iamgio.botmaker.ui.withClass
 import io.github.ageofwar.telejam.messages.Message
+import javafx.application.Platform
+import javafx.geometry.Pos
 import javafx.scene.control.Label
+import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 
 /**
@@ -23,7 +24,7 @@ abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlP
         styleClass += "event"
         bindSize(bindHeight = false)
 
-        children += Label(getString("event.${javaClass.simpleName}.text") + ":").withClass("event-title")
+        children += EventNodeTitle()
         children += filtersNode
         children += actionsNode
 
@@ -56,6 +57,7 @@ abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlP
 
     abstract fun getAvailableFilters(): List<Filter<T>>
     abstract fun getAvailableActions(): List<Action<T>>
+    abstract fun removeEvent()
 
     fun addFilter(filter: Filter<T>) {
         @Suppress("DuplicatedCode")
@@ -82,6 +84,26 @@ abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlP
             }
         })
     }
+
+    private inner class EventNodeTitle : HBox() {
+
+        init {
+            styleClass += "event-title-node"
+            alignment = Pos.CENTER_LEFT
+
+            children += Label(getString("event.${this@EventNode.javaClass.simpleName}.text") + ":").withClass("event-title")
+
+            children += createSvg(SVG_CLOSE).wrap().apply {
+                Platform.runLater {
+                    setOnMouseClicked {
+                        removeEvent()
+                        botControlPane.eventsVBox.children -= this@EventNode
+                        botControlPane.autosave()
+                    }
+                }
+            }.withClass("remove-line-button")
+        }
+    }
 }
 
 class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : EventNode<Message>(event, botControlPane) {
@@ -93,5 +115,10 @@ class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : 
             IfMessageMatchesRegex("", false),
             IfMessageContainsRegex("", false)
     )
+
     override fun getAvailableActions() = listOf(Reply(""))
+
+    override fun removeEvent() {
+        botControlPane.bot.messageEvents -= event
+    }
 }
