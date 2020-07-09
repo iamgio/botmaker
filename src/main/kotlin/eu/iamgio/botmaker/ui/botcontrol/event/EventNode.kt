@@ -1,7 +1,9 @@
 package eu.iamgio.botmaker.ui.botcontrol.event
 
 import eu.iamgio.botmaker.bundle.getString
-import eu.iamgio.botmaker.lib.*
+import eu.iamgio.botmaker.lib.Event
+import eu.iamgio.botmaker.lib.EventSpecs
+import eu.iamgio.botmaker.lib.MessageEventSpecs
 import eu.iamgio.botmaker.ui.*
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
 import io.github.ageofwar.telejam.messages.Message
@@ -16,8 +18,8 @@ import javafx.scene.layout.VBox
  */
 abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlPane) : VBox() {
 
-    private val filtersBlock = FilterEventBlock(this, event.filters).withClass("filters")
-    private val actionsBlock = ActionEventBlock(this, event.actions).withClass("actions")
+    private val filtersBlock = FilterEventBlock(getSpecs(), botControlPane, event.filters).withClass("filters")
+    private val actionsBlock = ActionEventBlock(getSpecs(), botControlPane, event.actions).withClass("actions")
 
     init {
         styleClass += "event"
@@ -36,8 +38,7 @@ abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlP
         }
     }
 
-    abstract fun getAvailableFilters(): List<Filter<T>>
-    abstract fun getAvailableActions(): List<Action<T>>
+    abstract fun getSpecs(): EventSpecs<T>
     abstract fun removeEvent()
 
     private inner class EventNodeTitle : HBox() {
@@ -62,19 +63,8 @@ abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlP
 }
 
 class MessageEventNode(event: Event<Message>, botControlPane: BotControlPane) : EventNode<Message>(event, botControlPane) {
-    override fun getAvailableFilters() = listOf(
-            IfMessageIsCommand("", true),
-            IfMessageStartsWith("", false),
-            IfMessageEndsWith("", false),
-            IfMessageContains("", false),
-            IfMessageMatchesRegex("", false),
-            IfMessageContainsRegex("", false)
-    )
 
-    override fun getAvailableActions() = listOf(
-            Reply(""),
-            RandomAction<Message>()
-    )
+    override fun getSpecs() = MessageEventSpecs()
 
     override fun removeEvent() {
         botControlPane.bot.messageEvents -= event

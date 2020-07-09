@@ -1,9 +1,6 @@
 package eu.iamgio.botmaker.ui.botcontrol.event
 
-import eu.iamgio.botmaker.lib.Action
-import eu.iamgio.botmaker.lib.Actions
-import eu.iamgio.botmaker.lib.Filter
-import eu.iamgio.botmaker.lib.Filters
+import eu.iamgio.botmaker.lib.*
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
 import javafx.scene.layout.VBox
 
@@ -17,10 +14,10 @@ open class EventBlock<T> : VBox() {
     }
 }
 
-class FilterEventBlock<T>(eventNode: EventNode<T>, private val filters: Filters<T>) : EventBlock<T>() {
+class FilterEventBlock<T>(specs: EventSpecs<T>, botControlPane: BotControlPane, private val filters: Filters<T>) : EventBlock<T>() {
 
     init {
-        children += NewFilterButton(this, eventNode)
+        children += NewFilterButton(this, specs, botControlPane)
     }
 
     fun add(filter: Filter<T>, botControlPane: BotControlPane, addToFilters: Boolean = true) {
@@ -36,10 +33,10 @@ class FilterEventBlock<T>(eventNode: EventNode<T>, private val filters: Filters<
     }
 }
 
-class ActionEventBlock<T>(eventNode: EventNode<T>, private val actions: Actions<T>) : EventBlock<T>() {
+class ActionEventBlock<T>(specs: EventSpecs<T>, botControlPane: BotControlPane, private val actions: Actions<T>) : EventBlock<T>() {
 
     init {
-        children += NewActionButton(this, eventNode)
+        children += NewActionButton(this, specs, botControlPane)
     }
 
     fun add(action: Action<T>, botControlPane: BotControlPane, addToActions: Boolean = true) {

@@ -72,11 +72,11 @@
     -fx-padding: 0 0 15 25;
 }
 
-.event .actions, .event .filters {
-    -fx-spacing: 10;
+.event .event-block .new {
+    -fx-padding: 5 0 0 25;
 }
 
-.event .event-action {
+.event .event-action, .event .block-title {
     -fx-font-size: 20;
 }
 
@@ -120,4 +120,16 @@
 
 .event .event-line:hover .remove-line-button, .event .event-title-node:hover .remove-line-button {
     -fx-scale-y: 1;
+}
+
+.event .event-block {
+    -fx-spacing: 10;
+}
+
+.event .sub-block {
+    -fx-padding: 15 0 10 40;
+}
+
+.event .sub-block .block-title {
+    -fx-padding: 0 0 0 -40;
 }

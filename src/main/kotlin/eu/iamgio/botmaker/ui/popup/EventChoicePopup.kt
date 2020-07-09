@@ -6,9 +6,9 @@ import eu.iamgio.botmaker.lib.Filter
 import eu.iamgio.botmaker.root
 import eu.iamgio.botmaker.ui.Actionable
 import eu.iamgio.botmaker.ui.BrowsableVBox
+import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
 import eu.iamgio.botmaker.ui.botcontrol.event.ActionEventBlock
 import eu.iamgio.botmaker.ui.botcontrol.event.EventBlock
-import eu.iamgio.botmaker.ui.botcontrol.event.EventNode
 import eu.iamgio.botmaker.ui.botcontrol.event.FilterEventBlock
 import eu.iamgio.botmaker.ui.withClass
 import javafx.scene.control.Label
@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-class EventChoicePopup<T, R>(type: ChoiceType, items: List<T>, val eventBlock: EventBlock<R>, val eventNode: EventNode<R>) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
+class EventChoicePopup<T, R>(type: ChoiceType, items: List<T>, val eventBlock: EventBlock<R>, val botControlPane: BotControlPane) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
 
     enum class ChoiceType {
         EVENT, FILTER, ACTION
@@ -98,13 +98,13 @@ class EventChoiceBrowsableList<T, R>(items: List<T>, scrollPane: ScrollPane, pop
                 with(popup) {
                     when(item) {
                         is Filter<*> -> (item as Filter<R>).let {
-                            (eventBlock as FilterEventBlock<R>).add(it, eventNode.botControlPane)
+                            (eventBlock as FilterEventBlock<R>).add(it, botControlPane)
                         }
                         is Action<*> -> (item as Action<R>).let {
-                            (eventBlock as ActionEventBlock<R>).add(it, eventNode.botControlPane)
+                            (eventBlock as ActionEventBlock<R>).add(it, botControlPane)
                         }
                     }
-                    eventNode.botControlPane.autosave()
+                    botControlPane.autosave()
                 }
             }
         }

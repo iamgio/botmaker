@@ -2,6 +2,7 @@ package eu.iamgio.botmaker.ui.botcontrol.event
 
 import eu.iamgio.botmaker.bundle.getString
 import eu.iamgio.botmaker.lib.Event
+import eu.iamgio.botmaker.lib.EventSpecs
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
 import eu.iamgio.botmaker.ui.center
 import eu.iamgio.botmaker.ui.popup.EventChoicePopup
@@ -30,24 +31,24 @@ class NewEventButton(botControlPane: BotControlPane) : NewButton("new.event") {
     }
 }
 
-class NewFilterButton<T>(eventBlock: EventBlock<T>, eventNode: EventNode<T>) : NewButton("new.filter") {
+class NewFilterButton<T>(eventBlock: EventBlock<T>, specs: EventSpecs<T>, botControlPane: BotControlPane) : NewButton("new.filter") {
 
     init {
         setOnMouseClicked {
             println("New filter")
-            val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.FILTER, eventNode.getAvailableFilters(), eventBlock, eventNode)
+            val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.FILTER, specs.getAvailableFilters(), eventBlock, botControlPane)
             eventChoicePopup.center()
             eventChoicePopup.show()
         }
     }
 }
 
-class NewActionButton<T>(eventBlock: EventBlock<T>, eventNode: EventNode<T>) : NewButton("new.action") {
+class NewActionButton<T>(eventBlock: EventBlock<T>, specs: EventSpecs<T>, botControlPane: BotControlPane) : NewButton("new.action") {
 
     init {
         setOnMouseClicked {
             println("New filter")
-            val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.ACTION, eventNode.getAvailableActions(), eventBlock, eventNode)
+            val eventChoicePopup = EventChoicePopup(EventChoicePopup.ChoiceType.ACTION, specs.getAvailableActions(), eventBlock, botControlPane)
             eventChoicePopup.center()
             eventChoicePopup.show()
         }

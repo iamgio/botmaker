@@ -5,10 +5,7 @@ import eu.iamgio.botmaker.ui.SVG_BELL_RING
 import eu.iamgio.botmaker.ui.SVG_REPLY
 import eu.iamgio.botmaker.ui.SVG_REPLY_EMPTY
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
-import eu.iamgio.botmaker.ui.botcontrol.event.buildEventLine
-import eu.iamgio.botmaker.ui.botcontrol.event.field
-import eu.iamgio.botmaker.ui.botcontrol.event.icon
-import eu.iamgio.botmaker.ui.botcontrol.event.text
+import eu.iamgio.botmaker.ui.botcontrol.event.*
 import io.github.ageofwar.telejam.Bot
 import io.github.ageofwar.telejam.messages.Message
 import io.github.ageofwar.telejam.methods.SendMessage
@@ -20,10 +17,19 @@ data class Actions<T>(val actions: MutableList<Action<T>> = mutableListOf()) : A
     override fun toNode(botControl: BotControlPane) = Pane()
 }
 
-data class RandomAction<T>(val actions: MutableList<Action<T>> = mutableListOf()) : Action<T> {
-    override fun run(bot: Bot, event: T, logger: ConsoleLogger) = actions.random().run(bot, event, logger)
+abstract class RandomAction<T>(private val actions: Actions<T>) : Action<T> {
 
-    override fun toNode(botControl: BotControlPane) = Pane()
+    override fun run(bot: Bot, event: T, logger: ConsoleLogger) = actions.actions.random().run(bot, event, logger)
+
+    override fun toNode(botControl: BotControlPane) = buildEventBlock(
+            getSpecs(), botControl, actions, "action.RandomAction.text"
+    )
+
+    abstract fun getSpecs(): EventSpecs<T>
+}
+
+class MessageRandomAction(actions: Actions<Message> = Actions(mutableListOf())) : RandomAction<Message>(actions) {
+    override fun getSpecs() = MessageEventSpecs()
 }
 
 data class Reply(var text: String, var sendAsReply: Boolean = true, var notification: Boolean = true) : Action<Message> {
