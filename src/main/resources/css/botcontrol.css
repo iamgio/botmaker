@@ -68,14 +68,6 @@
     -fx-font-weight: bold;
 }
 
-.event .new {
-    -fx-padding: 0 0 15 25;
-}
-
-.event .event-block .new {
-    -fx-padding: 5 0 0 25;
-}
-
 .event .event-action, .event .block-title {
     -fx-font-size: 20;
 }
@@ -123,13 +115,22 @@
 }
 
 .event .event-block {
-    -fx-spacing: 10;
+    -fx-spacing: 8;
+    -fx-padding: 8 0 3 0;
 }
 
 .event .sub-block {
-    -fx-padding: 15 0 10 40;
+    -fx-padding: 10 0 10 40;
 }
 
 .event .sub-block .block-title {
     -fx-padding: 0 0 0 -40;
+}
+
+.event .new {
+    -fx-padding: 0 0 5 25;
+}
+
+.event .sub-block .new {
+    -fx-padding: 5 0 0 25;
 }
