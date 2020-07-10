@@ -1,53 +1,71 @@
 package eu.iamgio.botmaker.ui.botcontrol.event
 
-import eu.iamgio.botmaker.lib.*
+import eu.iamgio.botmaker.lib.Action
+import eu.iamgio.botmaker.lib.EventSpecs
+import eu.iamgio.botmaker.lib.Filter
 import eu.iamgio.botmaker.ui.botcontrol.BotControlPane
+import javafx.scene.Node
 import javafx.scene.layout.VBox
 
 /**
  * @author Giorgio Garofalo
  */
-open class EventBlock<T> : VBox() {
+abstract class EventBlock<T, R>(val items: MutableList<R>, private val linkedItem: R?) : VBox() {
 
     init {
         styleClass += "event-block"
     }
+
+    fun addGraphically(item: R, botControlPane: BotControlPane) {
+        children.add(children.size - 1, nodeFromItem(item).also {
+            (it as? EventLine)?.setOnRemove {
+                items -= item
+                children -= it
+                botControlPane.autosave()
+            }
+        })
+    }
+
+    protected abstract fun nodeFromItem(item: R): Node
+
+    abstract fun addToList(item: R)
+    abstract fun remove(item: R)
+
+    fun removeFrom(parentBlock: EventBlock<*, R>) {
+        if(linkedItem != null) parentBlock.remove(linkedItem)
+    }
 }
 
-class FilterEventBlock<T>(specs: EventSpecs<T>, botControlPane: BotControlPane, private val filters: Filters<T>) : EventBlock<T>() {
+class FilterEventBlock<T>(specs: EventSpecs<T>, private val botControlPane: BotControlPane, private val filters: MutableList<Filter<T>>, linkedItem: Filter<T>?) : EventBlock<T, Filter<T>>(filters, linkedItem) {
 
     init {
         children += NewFilterButton(this, specs, botControlPane)
     }
 
-    fun add(filter: Filter<T>, botControlPane: BotControlPane, addToFilters: Boolean = true) {
-        if(addToFilters) filters.filters += filter
+    override fun nodeFromItem(item: Filter<T>) = item.toNode(botControlPane)
 
-        children.add(children.size - 1, filter.toNode(botControlPane).also {
-            (it as? EventLine)?.setOnRemove {
-                filters.filters -= filter
-                children -= it
-                botControlPane.autosave()
-            }
-        })
+    override fun addToList(item: Filter<T>) {
+        filters += item
+    }
+
+    override fun remove(item: Filter<T>) {
+        filters -= item
     }
 }
 
-class ActionEventBlock<T>(specs: EventSpecs<T>, botControlPane: BotControlPane, private val actions: Actions<T>) : EventBlock<T>() {
+class ActionEventBlock<T>(specs: EventSpecs<T>, private val botControlPane: BotControlPane, private val actions: MutableList<Action<T>>, linkedItem: Action<T>?) : EventBlock<T, Action<T>>(actions, linkedItem) {
 
     init {
         children += NewActionButton(this, specs, botControlPane)
     }
 
-    fun add(action: Action<T>, botControlPane: BotControlPane, addToActions: Boolean = true) {
-        if(addToActions) actions.actions += action
+    override fun nodeFromItem(item: Action<T>) = item.toNode(botControlPane)
 
-        children.add(children.size - 1, action.toNode(botControlPane).also {
-            (it as? EventLine)?.setOnRemove {
-                actions.actions -= action
-                children -= it
-                botControlPane.autosave()
-            }
-        })
+    override fun addToList(item: Action<T>) {
+        actions += item
+    }
+
+    override fun remove(item: Action<T>) {
+        actions -= item
     }
 }

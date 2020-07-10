@@ -18,8 +18,8 @@ import javafx.scene.layout.VBox
  */
 abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlPane) : VBox() {
 
-    private val filtersBlock = FilterEventBlock(getSpecs(), botControlPane, event.filters).withClass("filters")
-    private val actionsBlock = ActionEventBlock(getSpecs(), botControlPane, event.actions).withClass("actions")
+    private val filtersBlock = FilterEventBlock(getSpecs(), botControlPane, event.filters.filters, null).withClass("filters")
+    private val actionsBlock = ActionEventBlock(getSpecs(), botControlPane, event.actions.actions, null).withClass("actions")
 
     init {
         styleClass += "event"
@@ -30,11 +30,11 @@ abstract class EventNode<T>(val event: Event<T>, val botControlPane: BotControlP
         children += actionsBlock
 
         event.filters.filters.forEach {
-            filtersBlock.add(it, botControlPane, addToFilters = false)
+            filtersBlock.addGraphically(it, botControlPane)
         }
 
         event.actions.actions.forEach {
-            actionsBlock.add(it, botControlPane, addToActions = false)
+            actionsBlock.addGraphically(it, botControlPane)
         }
     }
 

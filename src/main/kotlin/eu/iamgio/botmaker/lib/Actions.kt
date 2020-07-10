@@ -21,8 +21,8 @@ abstract class RandomAction<T>(private val actions: Actions<T>) : Action<T> {
 
     override fun run(bot: Bot, event: T, logger: ConsoleLogger) = actions.actions.random().run(bot, event, logger)
 
-    override fun toNode(botControl: BotControlPane) = buildEventBlock(
-            getSpecs(), botControl, actions, "action.RandomAction.text"
+    override fun toNode(botControl: BotControlPane) = buildActionBlock(
+            getSpecs(), botControl, this, actions, "action.RandomAction.text"
     )
 
     abstract fun getSpecs(): EventSpecs<T>

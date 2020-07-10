@@ -20,7 +20,7 @@ import javafx.scene.layout.VBox
 /**
  * @author Giorgio Garofalo
  */
-class EventChoicePopup<T, R>(type: ChoiceType, items: List<T>, val eventBlock: EventBlock<R>, val botControlPane: BotControlPane) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
+class EventChoicePopup<T, R>(type: ChoiceType, items: List<T>, val eventBlock: EventBlock<R, T>, val botControlPane: BotControlPane) : ScenePopup(getString("popup.event-choice.title", type.name.toLowerCase())) {
 
     enum class ChoiceType {
         EVENT, FILTER, ACTION
@@ -98,10 +98,16 @@ class EventChoiceBrowsableList<T, R>(items: List<T>, scrollPane: ScrollPane, pop
                 with(popup) {
                     when(item) {
                         is Filter<*> -> (item as Filter<R>).let {
-                            (eventBlock as FilterEventBlock<R>).add(it, botControlPane)
+                            (eventBlock as FilterEventBlock<R>).let { block ->
+                                block.addToList(it)
+                                block.addGraphically(it, botControlPane)
+                            }
                         }
                         is Action<*> -> (item as Action<R>).let {
-                            (eventBlock as ActionEventBlock<R>).add(it, botControlPane)
+                            (eventBlock as ActionEventBlock<R>).let { block ->
+                                block.addToList(it)
+                                block.addGraphically(it, botControlPane)
+                            }
                         }
                     }
                     botControlPane.autosave()
